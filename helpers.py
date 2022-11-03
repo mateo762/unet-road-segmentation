@@ -1,4 +1,4 @@
-"""Some helper functions for project 1."""
+"""Some helper functions for project 2."""
 import csv
 import numpy as np
 
