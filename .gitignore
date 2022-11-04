@@ -3,3 +3,4 @@ test_set_images/
 training/
 *.ipynb_checkpoints
 *.csv
+*.png
