@@ -37,14 +37,21 @@ def create_csv_submission(ids, y_pred, name):
         for r1, r2 in zip(ids, y_pred):
             writer.writerow({"Id": int(r1), "Prediction": int(r2)})
 
-            
+
 def split_into_patches(img, patchsize):
     assert patchsize % 16 == 0 and 400 % patchsize == 0, "Invalid patchsize. Must be in {16, 80, 400}."
     sub_images = []
     width = img.shape[0]
     height = img.shape[1]
+    
+    if ((not width % patchsize == 0) or (not width % patchsize == 0)):
+        img = cv.copyMakeBorder(img, 0, patchsize - (height % patchsize), 0, patchsize - (width % patchsize), cv.BORDER_CONSTANT,value=(0, 0, 0))
+        width = img.shape[0]
+        height = img.shape[1]
+    
     for x in range(width // patchsize):
         for y in range(height // patchsize):
             tlc = (x*patchsize, y*patchsize) # Top left corner
             sub_images.append(img[tlc[0]:tlc[0]+patchsize,tlc[1]:tlc[1]+patchsize])
     return np.array(sub_images)
+
