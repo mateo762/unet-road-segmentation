@@ -2,6 +2,7 @@
 import csv
 import numpy as np
 import cv2 as cv
+from PIL import Image, ImageOps
 
 def load_csv_data(data_path, sub_sample=False):
     """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
@@ -118,6 +119,26 @@ def get_rotations_0_90_180_270(img):
     img_rotations.append(cv.rotate(img, cv.ROTATE_90_COUNTERCLOCKWISE))
     
     return np.array(img_rotations)
+
+
+def padding(img, expected_size):
+    desired_size = expected_size
+    delta_width = desired_size - img.size[0]
+    delta_height = desired_size - img.size[1]
+    pad_width = delta_width // 2
+    pad_height = delta_height // 2
+    padding = (pad_width, pad_height, delta_width - pad_width, delta_height - pad_height)
+    return ImageOps.expand(img, padding)
+
+def resize_with_padding(img, expected_size):
+    img.thumbnail((expected_size[0], expected_size[1]))
+    # print(img.size)
+    delta_width = expected_size[0] - img.size[0]
+    delta_height = expected_size[1] - img.size[1]
+    pad_width = delta_width // 2
+    pad_height = delta_height // 2
+    padding = (pad_width, pad_height, delta_width - pad_width, delta_height - pad_height)
+    return ImageOps.expand(img, padding)
     
     
     
