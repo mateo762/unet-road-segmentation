@@ -6,7 +6,7 @@ import math
 import matplotlib.image as mpimg
 import numpy as np
 
-label_file = 'dummy_submission.csv'
+label_file = 'submission.csv'
 
 h = 16
 w = h
@@ -49,6 +49,7 @@ def reconstruct_from_labels(image_id):
 
     return im
 
+"""
 for i in range(1, 5):
     reconstruct_from_labels(i)
-   
+"""
