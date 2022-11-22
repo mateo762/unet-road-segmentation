@@ -2,6 +2,8 @@ __pycache__/
 test_set_images/
 training/
 new_training/
+check_points/
+models/
 *.ipynb_checkpoints
 *.csv
 *.png

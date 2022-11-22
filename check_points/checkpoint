@@ -1,2 +1,2 @@
-model_checkpoint_path: "unet_model_1"
-all_model_checkpoint_paths: "unet_model_1"
+model_checkpoint_path: "unet_model"
+all_model_checkpoint_paths: "unet_model"

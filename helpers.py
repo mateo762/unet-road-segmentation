@@ -120,6 +120,20 @@ def get_rotations_0_90_180_270(img):
     
     return np.array(img_rotations)
 
+def combine_dims(img, start, count):
+    """
+    Reshapes a numpy array a by combining count number of dimensions, starting at dimension index start
+    
+    Arguments: img - numpy array representing the image
+               start - index of the first dimension to combine
+               count - number of dimensions to combine
+               
+    Returns: numpy array resized
+    """
+    
+    shape = img.shape
+    return np.reshape(img, shape[:start] + (-1,) + shape[start+count:])
+
 
 def padding(img, expected_size):
     desired_size = expected_size
