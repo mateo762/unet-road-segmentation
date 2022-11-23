@@ -1,19 +1,15 @@
-U-NET 100 BASE TRAINING SAMPLES : 
-AICROWD : 0.739 0.873
+MODEL, NUM_BASE_TRAINING, NUM_NEW_TRAINING, AUGMENTATIONS, AICROWD, KERAS OUTPUT, THREHOLD SUBMISSION, OTHER
 
-U-NET USING 100 NEW TRAINING SAMPLES AND 100 BASE TRAINING SAMPLES : 
-Epoch 19/25
-1086/1086 [==============================] - 821s 756ms/step - loss: 0.0650 - accuracy: 0.9765 - val_loss: 0.0560 - val_accuracy: 0.9802
-AICROWD : 0.785 0.895
+U-NET, 100 PATCHES 80, 0, NULL, F1 0.739 ACC 0.873, NULL, NULL, NULL
 
-U-NET 100 BASE TRAINING ALL ROTATED : 
-Epoch 14/25
-282/282 [==============================] - 207s 735ms/step - loss: 0.1697 - accuracy: 0.9312 - val_loss: 0.2868 - val_accuracy: 0.8719
-AICROWD : 0.726 0.877
+U-NET, 100 PATCHES 80, 100 PATCHES 80, NULL, F1 0.785 ACC 0.895, loss: 0.0650 - accuracy: 0.9765 - val_loss: 0.0560 - val_accuracy: 0.9802, NULL, NULL
 
-UNET 100 BASE TRAINING PATCHES 96 THRESHOLD SUBMISSION 0.1
-Epoch 20/20
-63/63 [==============================] - ETA: 0s - loss: 0.0983 - accuracy: 0.8338
-Epoch 20: val_loss did not improve from 0.16768
-63/63 [==============================] - 11s 174ms/step - loss: 0.0983 - accuracy: 0.8338 - val_loss: 0.1900 - val_accuracy: 0.8457
-AICROWD : 0.800 0.896	
+U-NET, 100 PATCHES 80, 0, ALL ROTATED, F1 0.726 ACC 0.877, loss: 0.1697 - accuracy: 0.9312 - val_loss: 0.2868 - val_accuracy: 0.8719, NULL, NULL
+
+UNET, 100 PATCHES 96, 0, NULL, F1 0.800 ACC 0.896, loss: 0.0983 - accuracy: 0.8338 - val_loss: 0.1900 - val_accuracy: 0.8457, 0.1, NULL, NULL
+
+SUBMIT THURSDAY
+UNET, 100 PATCHES 96, 10 PATCHES 96, NULL, NULL, NULL, 0.1, NULL
+UNET, 100 PATCHES 96, 50 PATCHES 96, NULL, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.1, NULL
+UNET, 100 PATCHES 96, 50 PATCHES 96, NULL, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.15, NULL
+UNET, 100 PATCHES 96, 50 PATCHES 96, NULL, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.2, NULL
