@@ -1,12 +1,19 @@
 U-NET 100 BASE TRAINING SAMPLES : 
-AICROWD : 0.739 	0.873
+AICROWD : 0.739 0.873
 
 U-NET USING 100 NEW TRAINING SAMPLES AND 100 BASE TRAINING SAMPLES : 
 Epoch 19/25
 1086/1086 [==============================] - 821s 756ms/step - loss: 0.0650 - accuracy: 0.9765 - val_loss: 0.0560 - val_accuracy: 0.9802
-AICROWD : 0.785 	0.895
+AICROWD : 0.785 0.895
 
 U-NET 100 BASE TRAINING ALL ROTATED : 
 Epoch 14/25
 282/282 [==============================] - 207s 735ms/step - loss: 0.1697 - accuracy: 0.9312 - val_loss: 0.2868 - val_accuracy: 0.8719
-AICROWD : 0.726 	0.877
+AICROWD : 0.726 0.877
+
+UNET 100 BASE TRAINING PATCHES 96 THRESHOLD SUBMISSION 0.1
+Epoch 20/20
+63/63 [==============================] - ETA: 0s - loss: 0.0983 - accuracy: 0.8338
+Epoch 20: val_loss did not improve from 0.16768
+63/63 [==============================] - 11s 174ms/step - loss: 0.0983 - accuracy: 0.8338 - val_loss: 0.1900 - val_accuracy: 0.8457
+AICROWD : 0.800 0.896	
