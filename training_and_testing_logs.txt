@@ -8,8 +8,10 @@ U-NET, 100 PATCHES 80, 0, ALL ROTATED, F1 0.726 ACC 0.877, loss: 0.1697 - accura
 
 UNET, 100 PATCHES 96, 0, NULL, F1 0.800 ACC 0.896, loss: 0.0983 - accuracy: 0.8338 - val_loss: 0.1900 - val_accuracy: 0.8457, 0.1, NULL, NULL
 
-SUBMIT THURSDAY
-UNET, 100 PATCHES 96, 10 PATCHES 96, NULL, NULL, NULL, 0.1, NULL
-UNET, 100 PATCHES 96, 50 PATCHES 96, NULL, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.1, NULL
-UNET, 100 PATCHES 96, 50 PATCHES 96, NULL, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.15, NULL
-UNET, 100 PATCHES 96, 50 PATCHES 96, NULL, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.2, NULL
+UNET, 100 PATCHES 96, 10 PATCHES 96, F1 0.797 ACC 0.897, NULL, NULL, 0.1, NULL
+
+UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.758 ACC 0.858, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.1, NULL
+
+UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.759 ACC 0.871, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.15, NULL
+
+UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.736 ACC 0.869, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.2, NULL
