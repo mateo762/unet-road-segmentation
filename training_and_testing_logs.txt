@@ -15,3 +15,5 @@ UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.758 ACC 0.858, NULL, loss: 0.0930 - ac
 UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.759 ACC 0.871, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.15, NULL
 
 UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.736 ACC 0.869, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.2, NULL
+
+UNET, 400 PATCHES 80 (WITH ROTATIONS), F1 0.747	ACC 0.867, NULL, loss: 0.1404 - accuracy: 0.7645 - val_loss: 0.2157 - val_accuracy: 0.7472, 0.2, NULL
