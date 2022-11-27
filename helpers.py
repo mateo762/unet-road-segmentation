@@ -2,6 +2,7 @@
 import csv
 import numpy as np
 import cv2 as cv
+import random
 from PIL import Image, ImageOps
 
 def load_csv_data(data_path, sub_sample=False):
@@ -119,6 +120,69 @@ def get_rotations_0_90_180_270(img):
     img_rotations.append(cv.rotate(img, cv.ROTATE_90_COUNTERCLOCKWISE))
     
     return np.array(img_rotations)
+
+def get_flipped_images(img):
+    """
+    Flips an image vertically and horizontally
+    
+    Arguments: img - numpy array representing the image
+               
+    Returns: numpy array with the original image and flipped images
+    """
+    
+    img_flipped = [img]
+    img_flipped.append(cv.flip(img,0))
+    img_flipped.append(cv.flip(img,1))
+    img_flipped.append(cv.flip(img,-1))
+    
+    return np.array(img_flipped)
+
+def noisy(noise_typ,image):
+    
+    if noise_typ == "gauss":
+        row,col,ch = image.shape
+        mean = 0
+        var = 0.1
+        sigma = var**0.5
+        gauss = np.random.normal(mean,sigma,(row,col,ch))
+        gauss = gauss.reshape(row,col,ch)
+        noisy = image + gauss
+        return noisy
+    elif noise_typ == "s&p":
+        # Getting the dimensions of the image
+        row , col, ch = image.shape
+
+        # Randomly pick some pixels in the
+        # image for coloring them white
+        # Pick a random number between 300 and 10000
+        number_of_pixels = random.randint(300, 10000)
+        for i in range(number_of_pixels):
+
+            # Pick a random y coordinate
+            y_coord=random.randint(0, row - 1)
+
+            # Pick a random x coordinate
+            x_coord=random.randint(0, col - 1)
+
+            # Color that pixel to white
+            image[y_coord][x_coord] = 255
+
+        # Randomly pick some pixels in
+        # the image for coloring them black
+        # Pick a random number between 300 and 10000
+        number_of_pixels = random.randint(300 , 10000)
+        for i in range(number_of_pixels):
+
+            # Pick a random y coordinate
+            y_coord=random.randint(0, row - 1)
+
+            # Pick a random x coordinate
+            x_coord=random.randint(0, col - 1)
+
+            # Color that pixel to black
+            image[y_coord][x_coord] = 0
+
+        return image
 
 def combine_dims(img, start, count):
     """
