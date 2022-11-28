@@ -133,11 +133,10 @@ def get_flipped_images(img):
     img_flipped = [img]
     img_flipped.append(cv.flip(img,0))
     img_flipped.append(cv.flip(img,1))
-    img_flipped.append(cv.flip(img,-1))
     
     return np.array(img_flipped)
 
-def noisy(noise_typ,image):
+def noisy(noise_typ, image, number_of_pixels = random.randint(300, 10000)):
     
     if noise_typ == "gauss":
         row,col,ch = image.shape
@@ -154,8 +153,7 @@ def noisy(noise_typ,image):
 
         # Randomly pick some pixels in the
         # image for coloring them white
-        # Pick a random number between 300 and 10000
-        number_of_pixels = random.randint(300, 10000)
+        
         for i in range(number_of_pixels):
 
             # Pick a random y coordinate
@@ -169,8 +167,6 @@ def noisy(noise_typ,image):
 
         # Randomly pick some pixels in
         # the image for coloring them black
-        # Pick a random number between 300 and 10000
-        number_of_pixels = random.randint(300 , 10000)
         for i in range(number_of_pixels):
 
             # Pick a random y coordinate

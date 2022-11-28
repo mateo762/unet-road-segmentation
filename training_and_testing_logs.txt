@@ -21,3 +21,5 @@ UNET, 400 PATCHES 80 (WITH ROTATIONS), F1 0.747	ACC 0.867, NULL, loss: 0.1404 - 
 UNET, 400 PATCHES 80 + 300 FLIPPED, F1 0.751 ACC 0.860, NULL, loss: 0.1314 - accuracy: 0.7654 - val_loss: 0.1656 - val_accuracy: 0.7472, 0.2, NULL
 
 UNET, 100 BASE + 300 ROTATED + 300 FLIPPED + 100 NOISE, F1 0.760 ACC 0.877, NULL, loss: 0.1208 - accuracy: 0.7647 - val_loss: 0.1557 - val_accuracy: 0.7638, NULL
+
+short_unet, 100 BASE + TRANSFORMATIONS, F1 0.818 ACC 0.907, NULL, loss: 0.1039 - accuracy: 0.8341 - val_loss: 0.1239 - val_accuracy: 0.8283
