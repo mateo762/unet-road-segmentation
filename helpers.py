@@ -4,6 +4,24 @@ import numpy as np
 import cv2 as cv
 import random
 from PIL import Image, ImageOps
+from tensorflow.keras.utils import Sequence
+
+class DataGenerator(Sequence):
+    """
+    Generator for the input data, this allows us to use a lot of inputs with the gpu even if the gpu cannot store all of it at once
+    taken from https://stackoverflow.com/questions/62916904/failed-copying-input-tensor-from-cpu-to-gpu-in-order-to-run-gatherve-dst-tensor
+    """
+    def __init__(self, x_set, y_set, batch_size):
+        self.x, self.y = x_set, y_set
+        self.batch_size = batch_size
+
+    def __len__(self):
+        return int(np.ceil(len(self.x) / float(self.batch_size)))
+
+    def __getitem__(self, idx):
+        batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
+        batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
+        return batch_x, batch_y
 
 def load_csv_data(data_path, sub_sample=False):
     """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
@@ -107,7 +125,7 @@ def split_into_random_n_patches(img, n, patchsize, tlcs=[]):
 
 def get_rotations_0_90_180_270(img):
     """
-    Rotates an image by 0, 90, 180 and 270 degrees.
+    Rotates an image by 0, 90, 180 and 270 degrees
     
     Arguments: img - numpy array representing the image
                
@@ -120,6 +138,22 @@ def get_rotations_0_90_180_270(img):
     img_rotations.append(cv.rotate(img, cv.ROTATE_90_COUNTERCLOCKWISE))
     
     return np.array(img_rotations)
+
+def get_rotation_deg_n(img, degrees):
+    """
+    Rotates an image by degrees degrees
+    
+    Arguments: img - numpy array representing the image
+               degrees - degree of rotation
+               
+    Returns: numpy array of the rotated image
+    """
+    
+    h, w = img.shape[:2]
+    cX, cY = w // 2, h // 2
+    M = cv.getRotationMatrix2D((cX, cY), degrees, 1.0)
+    rotated = cv.warpAffine(img, M, (w, h))
+    return rotated 
 
 def get_flipped_images(img):
     """
@@ -136,21 +170,29 @@ def get_flipped_images(img):
     
     return np.array(img_flipped)
 
-def noisy(noise_typ, image, number_of_pixels = random.randint(300, 10000)):
+def noisy(noise_type, img, corruption_ratio = 0.01, var = 50):
+    """
+    Adds noise to an image (either gaussian or salt and pepper noise)
     
-    if noise_typ == "gauss":
-        row,col,ch = image.shape
+    Arguments:  noise_type - either gaussian or salt and pepper
+                img - numpy array representing the image
+                corruption_ratio - the percentage of pixels to be changed to white or black in salt and pepper
+                var - the variance of the gaussian distribution for gauss
+                
+    Returns: numpy array of the noisy image            
+    """
+    
+    # Getting the dimensions of the image
+    row, col, ch = img.shape
+    if noise_type == "gauss":
         mean = 0
-        var = 0.1
         sigma = var**0.5
-        gauss = np.random.normal(mean,sigma,(row,col,ch))
-        gauss = gauss.reshape(row,col,ch)
-        noisy = image + gauss
+        gauss = np.random.normal(mean, sigma, (row, col, ch))
+        gauss = gauss.reshape(row, col, ch)
+        noisy = img + gauss
         return noisy
-    elif noise_typ == "s&p":
-        # Getting the dimensions of the image
-        row , col, ch = image.shape
-
+    elif noise_type == "s&p":
+        number_of_pixels = corruption_ratio*row*col
         # Randomly pick some pixels in the
         # image for coloring them white
         
@@ -163,7 +205,7 @@ def noisy(noise_typ, image, number_of_pixels = random.randint(300, 10000)):
             x_coord=random.randint(0, col - 1)
 
             # Color that pixel to white
-            image[y_coord][x_coord] = 255
+            img[y_coord][x_coord] = 255
 
         # Randomly pick some pixels in
         # the image for coloring them black
@@ -176,9 +218,9 @@ def noisy(noise_typ, image, number_of_pixels = random.randint(300, 10000)):
             x_coord=random.randint(0, col - 1)
 
             # Color that pixel to black
-            image[y_coord][x_coord] = 0
+            img[y_coord][x_coord] = 0
 
-        return image
+        return img
 
 def combine_dims(img, start, count):
     """
