@@ -196,7 +196,7 @@ def noisy(noise_type, img, corruption_ratio = 0.01, var = 50):
         # Randomly pick some pixels in the
         # image for coloring them white
         
-        for i in range(number_of_pixels):
+        for i in range(int(number_of_pixels)):
 
             # Pick a random y coordinate
             y_coord=random.randint(0, row - 1)
@@ -209,7 +209,7 @@ def noisy(noise_type, img, corruption_ratio = 0.01, var = 50):
 
         # Randomly pick some pixels in
         # the image for coloring them black
-        for i in range(number_of_pixels):
+        for i in range(int(number_of_pixels)):
 
             # Pick a random y coordinate
             y_coord=random.randint(0, row - 1)
