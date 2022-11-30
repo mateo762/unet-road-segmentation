@@ -26,6 +26,8 @@ short_unet, 100 BASE + TRANSFORMATIONS, F1 0.818 ACC 0.907, NULL, loss: 0.1039 -
 
 TODO ADD LUCA LOG 0.839
 
-short_unet, 100 PATCHES 96, 0, rotate 3*random 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.859 ACC 0.927, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.2, NULL
+short_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.859 ACC 0.927, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.2, NULL
 
-short_unet, 100 PATCHES 96, 0, rotate 3*random 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.853 ACC 0.919, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.1, NULL
+short_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.853 ACC 0.919, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.1, NULL
+
+first_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.796 ACC 0.896, loss: 0.0941 - accuracy: 0.8394 - val_loss: 0.1066 - val_accuracy: 0.8363, 0.2, NULL
