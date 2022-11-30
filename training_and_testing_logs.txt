@@ -31,3 +31,5 @@ short_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussia
 short_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.853 ACC 0.919, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.1, NULL
 
 first_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.796 ACC 0.896, loss: 0.0941 - accuracy: 0.8394 - val_loss: 0.1066 - val_accuracy: 0.8363, 0.2, NULL
+
+multi_unet, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, STILL HAVE TO SUBMIT, loss: 0.0797 - accuracy: 0.8409 - val_loss: 0.1032 - val_accuracy: 0.8412, 0.2, NULL
