@@ -139,7 +139,7 @@ def get_rotations_0_90_180_270(img):
     
     return np.array(img_rotations)
 
-def get_rotation_deg_n(img, degrees, center=(0.5, 0.5)):
+def get_rotation_deg_n(img, degrees, center=(50, 50)):
     """
     Rotates an image by degrees degrees
     
