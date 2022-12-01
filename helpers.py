@@ -139,7 +139,7 @@ def get_rotations_0_90_180_270(img):
     
     return np.array(img_rotations)
 
-def get_rotation_deg_n(img, degrees):
+def get_rotation_deg_n(img, degrees, center=(0.5, 0.5)):
     """
     Rotates an image by degrees degrees
     
@@ -150,7 +150,7 @@ def get_rotation_deg_n(img, degrees):
     """
     
     h, w = img.shape[:2]
-    cX, cY = w // 2, h // 2
+    cX, cY = 0.01 * center[0] * w, 0.01 * center[0] * h
     M = cv.getRotationMatrix2D((cX, cY), degrees, 1.0)
     rotated = cv.warpAffine(img, M, (w, h))
     return rotated 
