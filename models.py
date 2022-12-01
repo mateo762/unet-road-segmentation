@@ -192,7 +192,7 @@ def shorter_unet(input_size, verbose=False):
     # Define the model
     model = tf.keras.Model(inputs, outputs)
     
-    model.compile(optimizer = "adam", loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4), loss='binary_crossentropy', metrics=['accuracy'])
     
     if verbose:
         model.summary()

@@ -1,39 +1,53 @@
-MODEL, NUM_BASE_TRAINING, NUM_NEW_TRAINING, AUGMENTATIONS, AICROWD, KERAS OUTPUT, THRESHOLD SUBMISSION, OTHER
+MODEL, NUM_BASE_TRAINING, NUM_NEW_TRAINING, AUGMENTATIONS, AICROWD, KERAS OUTPUT, THRESHOLD SUBMISSION, BATCH SIZE, OPTIMIZER
 
-FIRST UNET, 100 PATCHES 80, 0, NULL, F1 0.739 ACC 0.873, NULL, NULL, NULL
+RANDOM ATTEMPTS
 
-FIRST UNET, 100 PATCHES 80, 100 PATCHES 80, NULL, F1 0.785 ACC 0.895, loss: 0.0650 - accuracy: 0.9765 - val_loss: 0.0560 - val_accuracy: 0.9802, NULL, NULL
+FIRST UNET, 100 PATCHES 80, 0, NULL, F1 0.739 ACC 0.873, NULL, NULL, NULL, ADAM
 
-FIRST UNET, 100 PATCHES 80, 0, ALL ROTATED, F1 0.726 ACC 0.877, loss: 0.1697 - accuracy: 0.9312 - val_loss: 0.2868 - val_accuracy: 0.8719, NULL, NULL
+FIRST UNET, 100 PATCHES 80, 100 PATCHES 80, NULL, F1 0.785 ACC 0.895, loss: 0.0650 - accuracy: 0.9765 - val_loss: 0.0560 - val_accuracy: 0.9802, NULL, NULL, ADAM
 
-FAT UNET, 100 PATCHES 96, 0, NULL, F1 0.800 ACC 0.896, loss: 0.0983 - accuracy: 0.8338 - val_loss: 0.1900 - val_accuracy: 0.8457, 0.1, NULL, NULL
+FIRST UNET, 100 PATCHES 80, 0, ALL ROTATED, F1 0.726 ACC 0.877, loss: 0.1697 - accuracy: 0.9312 - val_loss: 0.2868 - val_accuracy: 0.8719, NULL, NULL, ADAM
 
-FAT UNET, 100 PATCHES 96, 10 PATCHES 96, F1 0.797 ACC 0.897, NULL, NULL, 0.1, NULL
+FAT UNET, 100 PATCHES 96, 0, NULL, F1 0.800 ACC 0.896, loss: 0.0983 - accuracy: 0.8338 - val_loss: 0.1900 - val_accuracy: 0.8457, 0.1, NULL, NULL, ADAM
 
-FAT UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.758 ACC 0.858, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.1, NULL
+FAT UNET, 100 PATCHES 96, 10 PATCHES 96, F1 0.797 ACC 0.897, NULL, NULL, 0.1, NULL, ADAM
 
-FAT UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.759 ACC 0.871, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.15, NULL
+FAT UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.758 ACC 0.858, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.1, NULL, ADAM
 
-FAT UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.736 ACC 0.869, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.2, NULL
+FAT UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.759 ACC 0.871, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.15, NULL, ADAM
 
-FIRST UNET, 400 PATCHES 80 (WITH ROTATIONS), F1 0.747	ACC 0.867, NULL, loss: 0.1404 - accuracy: 0.7645 - val_loss: 0.2157 - val_accuracy: 0.7472, 0.2, NULL
+FAT UNET, 100 PATCHES 96, 50 PATCHES 96, F1 0.736 ACC 0.869, NULL, loss: 0.0930 - accuracy: 0.9491 - val_loss: 0.0864 - val_accuracy: 0.9555, 0.2, NULL, ADAM
 
-FIRST UNET, 400 PATCHES 80 + 300 FLIPPED, F1 0.751 ACC 0.860, NULL, loss: 0.1314 - accuracy: 0.7654 - val_loss: 0.1656 - val_accuracy: 0.7472, 0.2, NULL
+FIRST UNET, 400 PATCHES 80 (WITH ROTATIONS), F1 0.747	ACC 0.867, NULL, loss: 0.1404 - accuracy: 0.7645 - val_loss: 0.2157 - val_accuracy: 0.7472, 0.2, NULL, ADAM
 
-FIRST UNET, 100 BASE + 300 ROTATED + 300 FLIPPED + 100 NOISE, F1 0.760 ACC 0.877, NULL, loss: 0.1208 - accuracy: 0.7647 - val_loss: 0.1557 - val_accuracy: 0.7638, NULL
+FIRST UNET, 400 PATCHES 80 + 300 FLIPPED, F1 0.751 ACC 0.860, NULL, loss: 0.1314 - accuracy: 0.7654 - val_loss: 0.1656 - val_accuracy: 0.7472, 0.2, NULL, ADAM
 
-short_unet, 100 BASE + TRANSFORMATIONS, F1 0.818 ACC 0.907, NULL, loss: 0.1039 - accuracy: 0.8341 - val_loss: 0.1239 - val_accuracy: 0.8283
+FIRST UNET, 100 BASE + 300 ROTATED + 300 FLIPPED + 100 NOISE, F1 0.760 ACC 0.877, NULL, loss: 0.1208 - accuracy: 0.7647 - val_loss: 0.1557 - val_accuracy: 0.7638, NULL, NULL, ADAM
 
-short_unet, 100 PATCHES 96, 0, rotate 90 180 270 / flip x y / gaussian noise / s&p rate 0.01875, F1 0.839 ACC 0.915, NULL, 0.2, NULL
+short_unet, 100 BASE + TRANSFORMATIONS, F1 0.818 ACC 0.907, NULL, loss: 0.1039 - accuracy: 0.8341 - val_loss: 0.1239 - val_accuracy: 0.8283, NULL, NULL, ADAM
 
-SHORT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.859 ACC 0.927, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.2, NULL
+short_unet, 100 PATCHES 96, 0, rotate 90 180 270 / flip x y / gaussian noise / s&p rate 0.01875, F1 0.839 ACC 0.915, NULL, 0.2, NULL, ADAM
 
-SHORT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.853 ACC 0.919, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.1, NULL
+SHORT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.853 ACC 0.919, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.1, 16, ADAM
 
-FIRST UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.796 ACC 0.896, loss: 0.0941 - accuracy: 0.8394 - val_loss: 0.1066 - val_accuracy: 0.8363, 0.2, NULL
+FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.845 ACC 0.913, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.1, 64, ADAM
 
-MULTI UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.835 ACC 0.912, loss: 0.0797 - accuracy: 0.8409 - val_loss: 0.1032 - val_accuracy: 0.8412, 0.2, NULL
+COMPARISON OF ALL MODELS ON SAME STATS
 
-FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.845 ACC 0.913, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.1, NULL
+SHORT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.859 ACC 0.927, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.2, 16, ADAM
 
-FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.857 ACC 0.925, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.2, NULL
+FIRST UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.796 ACC 0.896, loss: 0.0941 - accuracy: 0.8394 - val_loss: 0.1066 - val_accuracy: 0.8363, 0.2, 16, ADAM
+
+MULTI UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.835 ACC 0.912, loss: 0.0797 - accuracy: 0.8409 - val_loss: 0.1032 - val_accuracy: 0.8412, 0.2, 16, ADAM
+
+FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.857 ACC 0.925, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.2, 64, ADAM
+
+FURTHER OPTIMIZATION OF SHORTER UNET AND FAT UNET
+
+SHORT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.853 ACC 0.919, loss: 0.0593 - accuracy: 0.8436 - val_loss: 0.1016 - val_accuracy: 0.8407, 0.1, 16, ADAM
+SHORT UNET WITH 512 LAYERS ADDED, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.844 ACC 0.918, loss: 0.0883 - accuracy: 0.8399 - val_loss: 0.1074 - val_accuracy: 0.8342, 0.2, 16, ADAM
+SHORT UNET, 100 PATCHES 96, 0, rotate 7*random / flip x y / gaussian noise var 200 / s&p rate 0.01875, F1 0.834 ACC 0.911, loss: 0.0569 - accuracy: 0.8475 - val_loss: 0.1140 - val_accuracy: 0.8365, 0.2, 16, ADAM
+
+FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.845 ACC 0.913, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.1, 64, ADAM
+
+
