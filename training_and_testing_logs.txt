@@ -50,6 +50,12 @@ SHORT UNET, 100 PATCHES 96, 0, rotate 7*random / flip x y / gaussian noise var 2
 SHORT UNET, 100 PATCHES 416, 0, rotate 5*random / flip x y / gaussian var 10 50 / s&p rate 0.01 0.005, F1 0.790 ACC 0.902, loss: 0.0951 - accuracy: 0.7942 - val_loss: 0.1606 - val_accuracy: 0.7918, 0.3, 1, ADAM
 SHORT UNET, 100 PATCHES 96, 0, rotate 6*random / flip x y / gaussian var 10 50 / s&p rate 0.01, F1 0.816 ACC 0.909, loss: 0.0947 - accuracy: 0.8453 - val_loss: 0.1194 - val_accuracy: 0.8417, 0.3, 16, ADAM
 
+SHORT UNET LEAKY RELUS, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.813 ACC 0.907, loss: 0.0639 - accuracy: 0.8436 - val_loss: 0.1185 - val_accuracy: 0.8337, 0.3, 16, ADAM
+SHORT UNET DROPOUT 0.1 THEN 0.5, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.851 ACC 0.920, loss: 0.0822 - accuracy: 0.8400 - val_loss: 0.0953 - val_accuracy: 0.8357, 0.2, 16, ADAM
+SHORT UNET DROPOUT 0.1 THEN 0.5, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.838 ACC 0.907, loss: 0.0822 - accuracy: 0.8400 - val_loss: 0.0953 - val_accuracy: 0.8357, 0.1, 16, ADAM
+SHORT UNET DROPOUT 0.1 THEN 0.5, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.844 ACC 0.921, loss: 0.0822 - accuracy: 0.8400 - val_loss: 0.0953 - val_accuracy: 0.8357, 0.3, 16, ADAM
+
+
 FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.845 ACC 0.913, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.1, 64, ADAM
 
 
