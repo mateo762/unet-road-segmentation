@@ -59,3 +59,14 @@ SHORT UNET DROPOUT 0.1 THEN 0.5, 100 PATCHES 96, 0, rotate 3*random + 90 180 270
 FAT UNET, 100 PATCHES 96, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875, F1 0.845 ACC 0.913, loss: 0.0623 - accuracy: 0.8430 - val_loss: 0.0890 - val_accuracy: 0.8414, 0.1, 64, ADAM
 
 
+DIFFERENT PATCH SIZE
+data = 100 PATCHES, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875
+SHORT_UNET, 96, F1 0.847 ACC 0.913, loss: 0.0820 - accuracy: 0.8408 - val_loss: 0.1026 - val_accuracy: 0.8368, 0.2 ,16, ADAM, BINARY_LOSS
+SHORT_UNET, 128, F1 0.792 ACC 0.875 loss: 0.0572 - accuracy: 0.8617 - val_loss: 0.1262 - val_accuracy: 0.8498, 0.2, 16, ADAM, BNIARY_LOSS
+
+DIFFERENT LOSS FUNCTIONS:
+data = 100 PATCHES, 0, rotate 3*random + 90 180 270 / flip x y / gaussian noise var 200 50 / s&p rate 0.01875
+SHORT_UNET, 96, F1 0.847 ACC 0.913, loss: 0.0820 - accuracy: 0.8408 - val_loss: 0.1026 - val_accuracy: 0.8368, 0.2 ,16, ADAM, BINARY_LOSS
+SHORT_UNET, 96, F1 0.818 ACC 0.903 | loss: 0.1631 - accuracy: 0.8374 - val_loss: 0.2098 - val_accuracy: 0.8351, 0.2, 16, ADAM, SOFT_DICE_LOSS
+SHORT_UNET, 128, F1 0.808 ACC 0.881 | loss: 0.1529 - accuracy: 0.8587 - val_loss: 0.2221 - val_accuracy: 0.8348, 0.2, 16, ADAM, SOFT_DICE_LOSS
+
