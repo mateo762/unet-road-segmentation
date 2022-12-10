@@ -313,21 +313,44 @@ Using neural networks for road segmentation of satellite images}}
 
 
 \section{Methods}
+We use a convolutional network in order to work on this problem since our inputs are images, in fact since our outputs are also images we use the U-Net as a general model as it is made for image segmentation \cite{wiki:u-net}.
 \subsection{Preprocessing}
+\label{preprocess}
+Before training our model, we preprocess our data in the following way.
 \subsubsection{Data augmentation}
+We start by augmenting our data as we only have 100 images of 400x400 which is far from enough for a U-Net, we use the following transformations : rotations of multiples of 90 degrees, random rotations, flipping, adding gaussian or salt and pepper noise and we fill the images with black pixels so they stay rectangular. Our best working set of augmentation consists of:
+\begin{itemize}
+\item Rotations of 3 random angles, 90, 180 and 270 degrees
+\item Flipping horizontally and vertically
+\item Adding gaussian noise of two different variances (usually 50 and 200)
+\item Salt and pepper with a low corruption ratio (about 2\%)
+\end{itemize}
 \subsubsection{Other training set}
+\label{otherset}
+Another way to grow our training set is by adding images from other training sets found online, namely from \cite{newtraining}. This set is far from clean (has a lot of images with white parts) and is not quite the same as the base training set we are given. We make it more usable by removing all images with white parts, but end up not using it as it is too different from our images to make our model more accurate.
 \subsubsection{From images to patches}
+Every image we have is 400x400 which is a big sample, it does not make much sense to give a whole image as a training item, instead we cut it into smaller patches (if the image is not a multiple of the patch size we pad it with black again). This gives us more training data without trading anything in return as long as the patches are large enough for the model to find roads easily.
 \subsection{Models}
-Talk about each model we found but also talk about the changes we tried in models (adding dropout, changing activation functions, changing the optimizer (maybe multiple subsubsections)
+As explained before the U-Net is our general model but we try to train different variations of it we give each of them a name to talk about them easier later on :
+\begin{itemize}
+\item "First UNET" taken from \cite{first-unet}
+\item "Short UNET" taken from \cite{short-unet}
+\item "Multi UNET" taken from \cite{multi-unet}
+\item "Large UNET" taken from \cite{large-unet}
+\end{itemize}
+On top of using these models as basis we also attempt to tweak them in multiple ways, for example by adding dropout layers or changing their rate, adding or removing layers or changing activation functions.
+Note that we always give the preprocessed images with their values divided by 255 (since RGB values go to 255) to the model, hence each model is trained with the same exact input shape and type.
 
 \subsection{Hyperparameters}
+Here we elaborate on certain hyperparameters we tried varying and optimizing.
 \subsubsection{Training set size}
-Talk about needing more training but having to balance data augment with original data to not overfit
+As explained in \ref{preprocess}, our given training set is far too small to train our models well so we have to add more data to it. An important tradeoff to take care of is to not have too much augmented data as opposed to original data, which is why we tried using another set as explained in \ref{otherset}. We end up settling on augmenting our data from 100 to 1200 images without adding new original data, as this gave us the best results without over-fitting on the training set.
 \subsubsection{Patch size}
+Patch size is a very interesting hyperparameter, intuitively the best patch size would be the smallest one where it is still easy to tell a road apart from a roof of a building for example. We still try even smaller sizes such as 16x16 in order to make sure our intuition is right. The models we use also tend to work better with patch sizes as multiples of 32 so we settle on 96x96 for most of our tests.
 \subsubsection{Submission threshold}
-Talk about F1 score and accuracy tradeoff
+After training the model, we still need to go from our patch size to the required one (16x16) and give a single value for each of these patches, which we do by averaging the patch image and thresholding that average to either output 0 or 1. Intuitively a threshold of 0.5 sounds like the best option but because of our lack in training data, a lower threshold such as 0.2 tends to yield better results as our model does not seem so confident in his predictions (road pixels do not have values much higher than non road ones). This hyperparameter is important to maximize as it is crucial in getting a higher F1 score, the right ratio of false positive and false negative needs to be met.
 \subsubsection{Others}
-Learning rate, batch size, monitored metric were all picked either randomly or for the model to run faster as they did not appear to have any influence on the results.
+There are a lot more hyperparameters in our models, most of the remaining ones were optimized for training speed as they did not impact accuracy (such as learning rate, batch size, which metric to monitor while training).
 \section{Results}
 \subsection{Performance}
 showcase all of the performance comparisons for hyperparameters or models or preprocessing
@@ -353,8 +376,6 @@ showcase all of the performance comparisons for hyperparameters or models or pre
 %To write good papers, identify your key idea, make your contributions
 %explicit, and use examples and illustrations to describe the problems
 %and solutions.
-
 \bibliographystyle{IEEEtran}
-\bibliography{literature}
-
+\bibliography{bib}
 \end{document}
