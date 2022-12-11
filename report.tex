@@ -26,6 +26,7 @@ Using neural networks for road segmentation of satellite images}}
 \maketitle
 
 \begin{abstract}
+In this lab report, we propose the use of an U-Net model to segment roads in satellite images. The U-Net model is a convolutional neural network (CNN) that has been shown to be effective for image segmentation tasks. We preprocess the dataset by applying data augmentation techniques, which help to improve the performance of the model. The augmented dataset is then used to train the U-Net model. We evaluate the performance of the model using several metrics, including accuracy and F1 score. The results show that the U-Net model achieves an accuracy of 92.7 on the test set, demonstrating its effectiveness at segmenting roads in satellite images. In addition, we also perform a detailed error analysis to understand where the model is making mistakes and identify potential areas for improvement. Overall, our results suggest that the U-Net model is a promising approach for solving this challenge.
 %TODO
   %A critical part of scientific discovery is the
   %communication of research findings to peers or the general public.
@@ -39,6 +40,13 @@ Using neural networks for road segmentation of satellite images}}
 \end{abstract}
 
 \section{Introduction}
+Road segmentation is the process of identifying roads in satellite images, which is an important task in many applications, such as autonomous vehicles and mapping services. By accurately segmenting roads in satellite images, we can improve the accuracy of these applications, which in turn can have a significant impact on the world.
+
+For example, in the case of autonomous vehicles, accurate road segmentation is essential for the vehicle to be able to navigate safely. By correctly identifying roads in satellite images, the vehicle can more accurately plan its route and avoid obstacles, which can greatly improve its safety and reliability.
+
+Additionally, accurate road segmentation can also improve the accuracy of mapping services, such as Google Maps. By correctly identifying roads in satellite images, these services can more accurately display road networks and provide more accurate directions to users. This can be especially important in areas where the road network is constantly changing, such as in developing countries.
+
+Overall, road segmentation is an important task that has the potential to greatly impact the world by improving the accuracy of many applications. In this lab, we will explore methods for accurately segmenting roads in satellite images and evaluate their performance.
 %TODO
 %The aim of writing a paper is to infect the mind of your reader with
 %the brilliance of your idea~\cite{jones08}. 
@@ -338,6 +346,14 @@ As explained before the U-Net is our general model but we try to train different
 \item "Multi UNET" taken from \cite{multi-unet}
 \item "Large UNET" taken from \cite{large-unet}
 \end{itemize}
+The First Unet model was the first model we created, just like the other models, it is a basic implementation of the Unet architecture, it consists of a contracting path and an expansive path. The contracting path is made up of several convolutional and max pooling layers, which reduce the spatial dimensions of the input image while increasing the number of filters. The expansive path is made up of several convolutional and up-sampling layers, which restore the spatial dimensions of the input image while decreasing the number of filters.
+
+The Multi Unet model uses multiple unet modules to improve the performance of the model. This is achieved by concatenating the outputs of the individual unet modules before passing them through the final layers of the model.
+
+The Short Unet uses fewer layers and filters in the contracting and expansive paths. This makes the model faster to train and less prone to overfitting, at the expense of some loss of performance.
+
+The Fat Unet model uses more layers and filters in the contracting and expansive paths. This makes the model more powerful and capable of achieving higher performance, but also makes it slower to train and more prone to overfitting.
+
 On top of using these models as basis we also attempt to tweak them in multiple ways, for example by adding dropout layers or changing their rate, adding or removing layers or changing activation functions.
 Note that we always give the preprocessed images with their values divided by 255 (since RGB values go to 255) to the model, hence each model is trained with the same exact input shape and type.
 
@@ -359,6 +375,14 @@ showcase all of the performance comparisons for hyperparameters or models or pre
     \includegraphics[scale = 0.4]{models_graph.png} %width=0.8\textwidth
     \caption{Accuracies of our various models, all using the same hyperparameters : training set augmented to 1200 images, patches of 96x96, submission threshold of 0.2, batch size of 16 and ADAM optimizer}
 \end{figure}
+
+The results show that the Short Unet performed the best, with an F1 score of 0.859 and an accuracy of 0.927. The F1 score is a measure of a model's performance that takes into account both precision and recall, so a high F1 score indicates that the model is able to accurately classify a large number of positive examples (i.e. roads) while also minimizing the number of false positives (i.e. non-road pixels that are classified as roads). The accuracy score measures the overall proportion of correctly classified pixels, so a high accuracy score indicates that the model is able to accurately classify a large number of pixels overall.
+\newline
+
+The First Unet, Multi Unet, and Fat Unet models all performed relatively similarly, with F1 scores in the range of 0.79 to 0.85 and accuracy scores in the range of 0.896 to 0.912. This indicates that these models are able to accurately classify a significant proportion of the positive examples and overall pixels, but not quite as well as the Short Unet model.
+\newline
+
+Overall, these results suggest that the Short Unet model is the best-performing model for this task, with a relatively high F1 score and accuracy score. However, it is also worth noting that the performance of all of the models is relatively high, indicating that all of the models are able to effectively classify roads in the satellite images.
 
 \begin{figure}[H]
     \centering
