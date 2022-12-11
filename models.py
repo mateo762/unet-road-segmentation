@@ -12,7 +12,6 @@ import tensorflow as tf
 # TODO CHANGE LR OF ADAM
 # PATCH SIZE USED WAS 96
 
-#Definition of the Fat Unet Model
 def fat_unet(input_size, verbose = False):
     #Taken from https://github.com/zhixuhao/unet/blob/master/model.py
     inputs = Input(input_size)
