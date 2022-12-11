@@ -26,6 +26,7 @@ Using neural networks for road segmentation of satellite images}}
 \maketitle
 
 \begin{abstract}
+In this lab report, we propose the use of an U-Net model to segment roads in satellite images. The U-Net model is a convolutional neural network (CNN) that has been shown to be effective for image segmentation tasks. We preprocess the dataset by applying data augmentation techniques, which help to improve the performance of the model. The augmented dataset is then used to train the U-Net model. We evaluate the performance of the model using several metrics, including accuracy and F1 score. The results show that the U-Net model achieves an accuracy of 92.7 on the test set, demonstrating its effectiveness at segmenting roads in satellite images. In addition, we also perform a detailed error analysis to understand where the model is making mistakes and identify potential areas for improvement. Overall, our results suggest that the U-Net model is a promising approach for solving this challenge.
 %TODO
   %A critical part of scientific discovery is the
   %communication of research findings to peers or the general public.
@@ -39,6 +40,13 @@ Using neural networks for road segmentation of satellite images}}
 \end{abstract}
 
 \section{Introduction}
+Road segmentation is the process of identifying roads in satellite images, which is an important task in many applications, such as autonomous vehicles and mapping services. By accurately segmenting roads in satellite images, we can improve the accuracy of these applications, which in turn can have a significant impact on the world.
+
+For example, in the case of autonomous vehicles, accurate road segmentation is essential for the vehicle to be able to navigate safely. By correctly identifying roads in satellite images, the vehicle can more accurately plan its route and avoid obstacles, which can greatly improve its safety and reliability.
+
+Additionally, accurate road segmentation can also improve the accuracy of mapping services, such as Google Maps. By correctly identifying roads in satellite images, these services can more accurately display road networks and provide more accurate directions to users. This can be especially important in areas where the road network is constantly changing, such as in developing countries.
+
+Overall, road segmentation is an important task that has the potential to greatly impact the world by improving the accuracy of many applications. In this lab, we will explore methods for accurately segmenting roads in satellite images and evaluate their performance.
 %TODO
 %The aim of writing a paper is to infect the mind of your reader with
 %the brilliance of your idea~\cite{jones08}. 
