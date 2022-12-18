@@ -11,6 +11,7 @@ import tensorflow as tf
 # TODO TRY OTHER ACTIVATION -> extract in arg of function
 # TODO CHANGE LR OF ADAM
 # PATCH SIZE USED WAS 96
+
 def fat_unet(input_size, verbose = False):
     #Taken from https://github.com/zhixuhao/unet/blob/master/model.py
     inputs = Input(input_size)
@@ -69,9 +70,9 @@ def fat_unet(input_size, verbose = False):
 
     return model
 
-#TODO ADD SOURCE LINK
 # PATCH SIZE USED WAS 80
 def first_unet(input_size, verbose = False):
+    # Taken from #https://github.com/bnsreenu/python_for_microscopists/blob/master/076-077-078-Unet_nuclei_tutorial.py
     inputs = tf.keras.layers.Input(input_size)
     s = tf.keras.layers.Lambda(lambda x: x / 255)(inputs)
 
@@ -134,7 +135,7 @@ def first_unet(input_size, verbose = False):
         
     return model
 
-def shorter_unet(input_size, verbose=False):   
+def short_unet(input_size, verbose=False):   
     #Taken from https://nbviewer.org/github/ashishpatel26/Semantic-Segmentation-Keras-Tensorflow-Example/blob/main/Areal_Image_segmentation_with_a_U_Net_like_architecture.ipynb
     
     inputs = tf.keras.layers.Input(input_size)
