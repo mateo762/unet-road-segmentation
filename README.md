@@ -39,8 +39,8 @@ In order to train a model, please start by installing the required libraries.
 - Sklearn
 - Matplotlib
 - Skimage
-- cudatoolkit 11.2
-- cudnn 8.1.0  
+- cudatoolkit version 11.2
+- cudnn version 8.1.0  
 
 Once this is done the following workflow can be used :   
 1) Augment the data by running cells in DataAugmentation.ipynb until satisfied with the train set  
