@@ -15,6 +15,9 @@ Repo folder
 │   └── groundtruth  
 │   └── images  
 ├── test_set_images  
+├── check_points
+├── models
+├── logs
 └── actual code files (.ipynb, .py)  
 Where   
 - the folders in base_training contain the train dataset from AICrowd.  
