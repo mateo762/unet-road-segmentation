@@ -355,6 +355,21 @@ The Large U-Net model uses more layers and filters in the contracting and expans
 On top of using these models as basis we also attempt to tweak them in multiple ways, for example by adding dropout layers or changing their rate, adding or removing layers or changing activation functions.
 Note that we always give the preprocessed images with their values divided by 255 (since RGB values go to 255) to the model as a way of standardizing our input. One could argue that standardizing the usual way is better, our reasoning is that the first layers of the neural network work as input transformation layers so it is not needed (we only divide by 255 in order to keep weights low and use less space). Each model is trained with the same exact input shape and type for comparing reasons.
 
+\subsection{Loss functions}
+Loss functions are an important part of machine learning models and are used to measure how well a model is performing. In the context of image segmentation, two commonly used loss functions are the binary cross entropy loss and the soft dice loss, which are the ones we experimented with.
+\subsubsection{Binary cross entropy}
+The binary cross entropy loss is a measure of the difference between the predicted output and the true output for binary classification tasks. It is defined as:
+\begin{center}
+$Loss = -{(y\log(p) + (1 - y)\log(1 - p))}$
+\end{center}
+
+Where y is the true output and p is the predicted output. The binary cross entropy loss is easy to calculate and is commonly used for image segmentation tasks. However, it can be sensitive to imbalanced datasets and may not be the best choice when the class distribution is uneven.
+\subsubsection{Soft dice loss}
+The soft dice loss is another commonly used loss function for image segmentation tasks. It is defined as:
+\begin{center}
+$Loss = \frac{2*|U \cap V|}{|U| + |V|}$
+\end{center}
+Where ${|U \cap V|}$ represents the common elements between sets U and V, and |U| represents the number of elements in set U (and likewise for set V). The soft dice loss is less sensitive to imbalanced datasets than the binary cross entropy loss and is often used when the class distribution is uneven. However, it can be more difficult to optimize and may not always converge as quickly as the binary cross entropy loss.
 \subsection{Hyperparameters}
 Here we elaborate on certain hyperparameters we tried varying and optimizing.
 \subsubsection{Training set size}
@@ -375,6 +390,8 @@ We now present different results of different variations of our model along with
     \caption{Accuracies of our various models, all using the same hyperparameters : training set augmented to 1200 images, patches of 96x96, submission threshold of 0.2, batch size of 16 and ADAM optimizer}
 \end{figure}
 For starters, when comparing the models we described in \ref{models}, our highest scoring model turns out to be the Short U-Net, with an F1 score of 0.859 and an accuracy of 0.927, which is the highest score we have gotten overall. The other models still have quite high scores but were mostly discarded due to the amount of time we have.
+\newline
+All of those models used the binary cross entropy loss function, since it had better results than the soft dice loss function. In the Short Unet, when training the model with the soft dice loss function the model had an F1 score of 0.818, giving worse results than with the binary cross entropy loss.
 \newline
 Another interesting parameter we tweaked was the submission threshold. This graph shows how much influence it has over a certain trained model.
 \begin{figure}[H]
