@@ -3,14 +3,130 @@ from keras.layers import *
 from keras.optimizers import *
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras import backend as keras
+import keras.backend as K
 
 import tensorflow as tf
-
 
 # TODO TRY F1 AS METRIC IN MODEL.COMPILE
 # TODO TRY OTHER ACTIVATION -> extract in arg of function
 # TODO CHANGE LR OF ADAM
 # PATCH SIZE USED WAS 96
+
+#From old keras code
+def get_f1(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+    predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+    precision = true_positives / (predicted_positives + K.epsilon())
+    recall = true_positives / (possible_positives + K.epsilon())
+    f1_val = 2*(precision*recall)/(precision+recall+K.epsilon())
+    return f1_val
+
+def a_unet(input_size, verbose = False):
+    inputs = Input(input_size)
+    s = tf.keras.layers.Lambda(lambda x: x / 255)(inputs)
+    
+    dropout = 0.8 # TODO CHANGE
+    alpha = 0.1 # TODO CHANGE
+    
+    # Encode
+    
+    conv1 = Conv2D(32, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(s)
+    conv1 = tf.keras.layers.BatchNormalization()(conv1)
+    conv2 = Conv2D(32, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(conv1)
+    conv2 = tf.keras.layers.BatchNormalization()(conv2)
+    
+    pool1 = tf.keras.layers.MaxPool2D(2)(conv2)
+    pool1 = tf.keras.layers.Dropout(dropout)(pool1)
+    
+    
+    conv3 = Conv2D(64, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(pool1)
+    conv3 = tf.keras.layers.BatchNormalization()(conv3)
+    conv4 = Conv2D(64, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(conv3)
+    conv4 = tf.keras.layers.BatchNormalization()(conv4)
+    
+    pool2 = tf.keras.layers.MaxPool2D(2)(conv4)
+    pool2 = tf.keras.layers.Dropout(dropout)(pool2)
+    
+    
+    conv5 = Conv2D(128, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(pool2)
+    conv5 = tf.keras.layers.BatchNormalization()(conv5)
+    conv6 = Conv2D(128, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(conv5)
+    conv6 = tf.keras.layers.BatchNormalization()(conv6)
+    
+    pool3 = tf.keras.layers.MaxPool2D(2)(conv6)
+    pool3 = tf.keras.layers.Dropout(dropout)(pool3)
+    
+    
+    conv7 = Conv2D(256, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(pool3)
+    conv7 = tf.keras.layers.BatchNormalization()(conv7)
+    conv8 = Conv2D(256, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(conv7)
+    conv8 = tf.keras.layers.BatchNormalization()(conv8)
+    
+    pool4 = tf.keras.layers.MaxPool2D(2)(conv8)
+    pool4 = tf.keras.layers.Dropout(dropout)(pool4)
+    
+    
+    conv9 = Conv2D(512, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(pool4)
+    conv9 = tf.keras.layers.BatchNormalization()(conv9)
+    conv10 = Conv2D(512, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(conv9)
+    conv10 = tf.keras.layers.BatchNormalization()(conv10)
+    
+    pool5 = tf.keras.layers.MaxPool2D(2)(conv10)
+    
+    # Decode
+    
+    up1 = tf.keras.layers.Conv2DTranspose(256, 3, 2, padding='same', kernel_initializer='he_normal')(conv10)
+    
+    up1 = tf.keras.layers.concatenate([up1, conv8], axis=3)
+    
+    
+    up2 = Conv2D(128, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up1)
+    up2 = tf.keras.layers.BatchNormalization()(up2)
+    up2 = Conv2D(128, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up2)
+    up2 = tf.keras.layers.BatchNormalization()(up2)
+    up2 = tf.keras.layers.Conv2DTranspose(128, 3, 2, padding='same', kernel_initializer='he_normal')(up2)
+    up2 = tf.keras.layers.Dropout(dropout)(up2)
+    
+    up2 = tf.keras.layers.concatenate([up2, conv6], axis=3)
+    
+    
+    up3 = Conv2D(64, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up2)
+    up3 = tf.keras.layers.BatchNormalization()(up3)
+    up3 = Conv2D(64, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up3)
+    up3 = tf.keras.layers.BatchNormalization()(up3)
+    up3 = tf.keras.layers.Conv2DTranspose(64, 3, 2, padding='same', kernel_initializer='he_normal')(up3)
+    up3 = tf.keras.layers.Dropout(dropout)(up3)
+    
+    up3 = tf.keras.layers.concatenate([up3, conv4], axis=3)
+    
+    
+    up4 = Conv2D(32, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up3)
+    up4 = tf.keras.layers.BatchNormalization()(up4)
+    up4 = Conv2D(32, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up4)
+    up4 = tf.keras.layers.BatchNormalization()(up4)
+    up4 = tf.keras.layers.Conv2DTranspose(32, 3, 2, padding='same', kernel_initializer='he_normal')(up4)
+    up4 = tf.keras.layers.Dropout(dropout)(up4)
+    
+    up4 = tf.keras.layers.concatenate([up4, conv2], axis=3)
+    
+    
+    up5 = Conv2D(32, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up4)
+    up5 = tf.keras.layers.BatchNormalization()(up5)
+    up5 = Conv2D(32, 3, activation=LeakyReLU(alpha), padding='same', kernel_initializer='he_normal')(up5)
+    up5 = tf.keras.layers.BatchNormalization()(up5)
+
+    outputs = tf.keras.layers.Conv2D(1, 1, activation='sigmoid')(up5)
+    
+    model = Model(inputs = inputs, outputs = outputs, name='a_unet')
+
+    model.compile(optimizer = Adam(learning_rate = 1e-4), loss = 'binary_crossentropy', metrics = [get_f1]) #TODO CHANGE
+    
+    if verbose:
+        model.summary()
+
+    return model
+    
 
 def fat_unet(input_size, verbose = False):
     #Taken from https://github.com/zhixuhao/unet/blob/master/model.py
@@ -63,7 +179,7 @@ def fat_unet(input_size, verbose = False):
 
     model = Model(inputs = inputs, outputs = conv10, name='fat_unet')
 
-    model.compile(optimizer = Adam(learning_rate = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = Adam(learning_rate = 1e-4), loss = 'binary_crossentropy', metrics = [get_f1])
     
     if verbose:
         model.summary()
@@ -193,7 +309,7 @@ def short_unet(input_size, verbose=False):
     # Define the model
     model = tf.keras.Model(inputs, outputs)
     
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4), loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4), loss='binary_crossentropy', metrics=[get_f1])
     
     if verbose:
         model.summary()
