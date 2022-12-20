@@ -5,6 +5,7 @@ import cv2 as cv
 import random
 from PIL import Image, ImageOps
 from tensorflow.keras.utils import Sequence
+import math
 
 class DataGenerator(Sequence):
     """
@@ -22,41 +23,6 @@ class DataGenerator(Sequence):
         batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
         batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
         return batch_x, batch_y
-
-def load_csv_data(data_path, sub_sample=False):
-    """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
-    y = np.genfromtxt(data_path, delimiter=",", skip_header=1, dtype=str, usecols=1)
-    x = np.genfromtxt(data_path, delimiter=",", skip_header=1)
-    ids = x[:, 0].astype(np.int)
-    input_data = x[:, 2:]
-
-    # convert class labels from strings to binary (-1,1)
-    yb = np.ones(len(y))
-    yb[np.where(y == "b")] = -1
-
-    # sub-sample
-    if sub_sample:
-        yb = yb[::50]
-        input_data = input_data[::50]
-        ids = ids[::50]
-
-    return yb, input_data, ids
-
-
-def create_csv_submission(ids, y_pred, name):
-    """
-    Creates an output file in .csv format for submission to Kaggle or AIcrowd
-    Arguments: ids (event ids associated with each prediction)
-               y_pred (predicted class labels)
-               name (string name of .csv output file to be created)
-    """
-    with open(name, "w") as csvfile:
-        fieldnames = ["Id", "Prediction"]
-        writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=fieldnames)
-        writer.writeheader()
-        for r1, r2 in zip(ids, y_pred):
-            writer.writerow({"Id": int(r1), "Prediction": int(r2)})
-
 
 def split_into_patches(img, patchsize):
     """
@@ -236,30 +202,35 @@ def combine_dims(img, start, count):
     shape = img.shape
     return np.reshape(img, shape[:start] + (-1,) + shape[start+count:])
 
-
-def padding(img, expected_size):
-    desired_size = expected_size
-    delta_width = desired_size - img.size[0]
-    delta_height = desired_size - img.size[1]
-    pad_width = delta_width // 2
-    pad_height = delta_height // 2
-    padding = (pad_width, pad_height, delta_width - pad_width, delta_height - pad_height)
-    return ImageOps.expand(img, padding)
-
-def resize_with_padding(img, expected_size):
-    img.thumbnail((expected_size[0], expected_size[1]))
-    # print(img.size)
-    delta_width = expected_size[0] - img.size[0]
-    delta_height = expected_size[1] - img.size[1]
-    pad_width = delta_width // 2
-    pad_height = delta_height // 2
-    padding = (pad_width, pad_height, delta_width - pad_width, delta_height - pad_height)
-    return ImageOps.expand(img, padding)
+def prediction_to_csv(predictions, test_ids, patch_size, threshold):
+    """
+    Creates a .csv file with the predictions of the test set in order to submit on AICrowd
     
-    
-    
-    
-    
-    
-    
-    
+    Arguments: predictions - numpy array of predictions for the test set (one prediction per patch)
+               test_ids - list of all the test images names
+               patch_size - the patch size that was used to train the model
+               threshold - the percentage of road pixels in a 16x16 patch needed for this patch to be labeled as road
+               
+    Does not return anything but creates a predictions.csv file in the repo folder
+    """
+    submission = []
+    # The constants with _SIDE mean how many patches fit per image in one dimension (one side)
+    TEST_IMAGE_LENGTH = 608
+    PATCHES_PER_IMAGE_SIDE = math.ceil(TEST_IMAGE_LENGTH/patch_size)
+    PATCHES_PER_IMAGE = PATCHES_PER_IMAGE_SIDE**2
+    SUBIMAGES_PER_PATCH_SIDE = patch_size/16
+    for i, pred in enumerate(predictions):
+        img_id = test_ids[i//PATCHES_PER_IMAGE]
+        # Format the image id
+        id = img_id.split('_')[1].zfill(3)
+        # Make sure the patch size is a multiple of 16 otherwise this line won't work
+        preds = split_into_patches(pred, 16)
+        for j, img in enumerate(preds):
+            # Calculate the index of each subimage (in terms of pixels)
+            x = 16*(SUBIMAGES_PER_PATCH_SIDE*((i % PATCHES_PER_IMAGE) % PATCHES_PER_IMAGE_SIDE) + j % SUBIMAGES_PER_PATCH_SIDE)
+            y = 16*(SUBIMAGES_PER_PATCH_SIDE*((i % PATCHES_PER_IMAGE) // PATCHES_PER_IMAGE_SIDE) + j // SUBIMAGES_PER_PATCH_SIDE)
+            # Don't add the padding predictions
+            if x < TEST_IMAGE_LENGTH and y < TEST_IMAGE_LENGTH:
+                # For now we calculate the average over all the pixels and check if it's above 0.5
+                submission.append((f"{id}_{x:.0f}_{y:.0f}", 1 if img.mean() > threshold else 0))
+    np.savetxt("predictions.csv", np.asarray(submission), fmt="%s", delimiter=",", newline="\n", header="id,prediction", comments="")

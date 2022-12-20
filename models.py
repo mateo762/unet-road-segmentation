@@ -6,12 +6,6 @@ from keras import backend as keras
 
 import tensorflow as tf
 
-
-# TODO TRY F1 AS METRIC IN MODEL.COMPILE
-# TODO TRY OTHER ACTIVATION -> extract in arg of function
-# TODO CHANGE LR OF ADAM
-# PATCH SIZE USED WAS 96
-
 def fat_unet(input_size, verbose = False):
     #Taken from https://github.com/zhixuhao/unet/blob/master/model.py
     inputs = Input(input_size)
@@ -68,71 +62,6 @@ def fat_unet(input_size, verbose = False):
     if verbose:
         model.summary()
 
-    return model
-
-# PATCH SIZE USED WAS 80
-def first_unet(input_size, verbose = False):
-    # Taken from #https://github.com/bnsreenu/python_for_microscopists/blob/master/076-077-078-Unet_nuclei_tutorial.py
-    inputs = tf.keras.layers.Input(input_size)
-    s = tf.keras.layers.Lambda(lambda x: x / 255)(inputs)
-
-    c1 = tf.keras.layers.Conv2D(16, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(s)
-    c1 = tf.keras.layers.Dropout(0.1)(c1)
-    c1 = tf.keras.layers.Conv2D(16, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c1)
-    p1 = tf.keras.layers.MaxPooling2D((2, 2))(c1)
-
-    c2 = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(p1)
-    c2 = tf.keras.layers.Dropout(0.1)(c2)
-    c2 = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c2)
-    p2 = tf.keras.layers.MaxPooling2D((2, 2))(c2)
-
-    c3 = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(p2)
-    c3 = tf.keras.layers.Dropout(0.2)(c3)
-    c3 = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c3)
-    p3 = tf.keras.layers.MaxPooling2D((2, 2))(c3)
-
-    c4 = tf.keras.layers.Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(p3)
-    c4 = tf.keras.layers.Dropout(0.2)(c4)
-    c4 = tf.keras.layers.Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c4)
-    p4 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(c4)
-
-    c5 = tf.keras.layers.Conv2D(256, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(p4)
-    c5 = tf.keras.layers.Dropout(0.3)(c5)
-    c5 = tf.keras.layers.Conv2D(256, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c5)
-
-    u6 = tf.keras.layers.Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(c5)
-    u6 = tf.keras.layers.concatenate([u6, c4])
-    c6 = tf.keras.layers.Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(u6)
-    c6 = tf.keras.layers.Dropout(0.2)(c6)
-    c6 = tf.keras.layers.Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c6)
-
-    u7 = tf.keras.layers.Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(c6)
-    u7 = tf.keras.layers.concatenate([u7, c3])
-    c7 = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(u7)
-    c7 = tf.keras.layers.Dropout(0.2)(c7)
-    c7 = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c7)
-
-    u8 = tf.keras.layers.Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(c7)
-    u8 = tf.keras.layers.concatenate([u8, c2])
-    c8 = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(u8)
-    c8 = tf.keras.layers.Dropout(0.1)(c8)
-    c8 = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c8)
-
-    u9 = tf.keras.layers.Conv2DTranspose(16, (2, 2), strides=(2, 2), padding='same')(c8)
-    u9 = tf.keras.layers.concatenate([u9, c1], axis=3)
-    c9 = tf.keras.layers.Conv2D(16, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(u9)
-    c9 = tf.keras.layers.Dropout(0.1)(c9)
-    c9 = tf.keras.layers.Conv2D(16, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same')(c9)
-
-    outputs = tf.keras.layers.Conv2D(1, (1, 1), activation='sigmoid')(c9)
-
-    model = tf.keras.Model(inputs = inputs, outputs = outputs, name = 'first_unet')
-    
-    model.compile(optimizer = "adam", loss='binary_crossentropy', metrics=['accuracy'])
-    
-    if verbose:
-        model.summary()
-        
     return model
 
 def short_unet(input_size, verbose=False):   
@@ -200,8 +129,8 @@ def short_unet(input_size, verbose=False):
         
     return model
 
-
 def multi_unet_model(input_size, verbose = False):
+    # Taken from #https://github.com/bnsreenu/python_for_microscopists/blob/master/076-077-078-Unet_nuclei_tutorial.py
     #Build the model
     inputs = tf.keras.layers.Input(input_size)
     s = tf.keras.layers.Lambda(lambda x: x / 255)(inputs)
@@ -259,105 +188,6 @@ def multi_unet_model(input_size, verbose = False):
     outputs = tf.keras.layers.Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
     model = tf.keras.Model(inputs=[inputs], outputs=[outputs], name="multi_unet_model")
-    
-    model.compile(optimizer = "adam", loss='binary_crossentropy', metrics=['accuracy'])
-    
-    if verbose:
-        model.summary()
-        
-    return model
-
-def variation_unet(input_size, verbose = False):
-    #Taken from https://medium.com/@nithishmailme/satellite-imagery-road-segmentation-ad2964dc3812
-    #Build the model
-    inputs = tf.keras.layers.Input(input_size)
-    s = tf.keras.layers.Lambda(lambda x: x / 255)(inputs)
-
-    x = Conv2D(32, (3, 3), padding='same', name='block1_conv1')(s)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(32, (3, 3), padding='same', name='block1_conv2')(x)
-    x = BatchNormalization()(x)
-    block_1_out = Activation('relu')(x)
-    x = MaxPooling2D()(block_1_out)
-    x = Dropout(0.2)(x)
-
-    # Block 2
-    x = Conv2D(64, (3, 3), padding='same', name='block2_conv1')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(64, (3, 3), padding='same', name='block2_conv2')(x)
-    x = BatchNormalization()(x)
-    block_2_out = Activation('relu')(x)
-    x = MaxPooling2D()(block_2_out)
-    x = Dropout(0.2)(x)
-
-    # Block 3
-    x = Conv2D(128, (3, 3), padding='same', name='block3_conv1')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(128, (3, 3), padding='same', name='block3_conv2')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(128, (3, 3), padding='same', name='block3_conv3')(x)
-    x = BatchNormalization()(x)
-    block_3_out = Activation('relu')(x)
-    x = MaxPooling2D()(block_3_out)
-    x = Dropout(0.2)(x)
-
-    # Block 4
-    x = Conv2D(256, (3, 3), padding='same', name='block4_conv1')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(256, (3, 3), padding='same', name='block4_conv2')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(256, (3, 3), padding='same', name='block4_conv3')(x)
-    x = BatchNormalization()(x)
-    x = Dropout(0.2)(x)
-
-    block_4_out = Activation('relu')(x)
-
-    x = Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same', name = 'Conv2DTranspose_UP2')(block_4_out)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Concatenate()([x, block_3_out])
-    x = Conv2D(128, (3, 3), padding='same')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(128, (3, 3), padding='same')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Dropout(0.2)(x)
-
-    # UP 3
-    x = Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same', name = 'Conv2DTranspose_UP3')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Concatenate()([x, block_2_out])
-    x = Conv2D(64, (3, 3), padding='same')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(64, (3, 3), padding='same')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Dropout(0.2)(x)
-
-    # UP 4
-    x = Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same', name = 'Conv2DTranspose_UP4')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Concatenate()([x, block_1_out])
-    x = Conv2D(32, (3, 3), padding='same')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Conv2D(32, (3, 3), padding='same')(x)
-    x = BatchNormalization()(x)
-    x = Activation('relu')(x)
-    x = Dropout(0.2)(x)
-    outputs = Conv2D(2, (3, 3), activation='softmax', padding='same')(x)
-
-    model = tf.keras.Model(inputs=[inputs], outputs=[outputs], name="variation_unet")
     
     model.compile(optimizer = "adam", loss='binary_crossentropy', metrics=['accuracy'])
     
