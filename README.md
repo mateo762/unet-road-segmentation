@@ -29,7 +29,19 @@ The following files are needed/useful for understanding the project and training
 - DataAugmentation.ipynb, file used for augmenting the data set in a customizable manner.  
 - Unet.ipynb, file used to train a model and create predictions.  
 ## Running the code  
-In order to train a model, please start by installing the required libraries and take care of the requirements at the top of Unet.ipynb.  
+In order to train a model, please start by installing the required libraries.
+- Tensorflow version 2.10.x
+- Keras
+- Numpy
+- Math
+- Random
+- Tqdm
+- Sklearn
+- Matplotlib
+- Skimage
+- cudatoolkit version 11.2
+- cudnn version 8.1.0  
+
 Once this is done the following workflow can be used :   
 1) Augment the data by running cells in DataAugmentation.ipynb until satisfied with the train set  
 2) Tweak the constants at the start of Unet.ipynb  
