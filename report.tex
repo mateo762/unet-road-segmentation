@@ -18,10 +18,13 @@
 \usepackage[a4paper,top=1cm,bottom=1cm,left=2cm,right=2cm,marginparwidth=2cm]{geometry}
 
 \begin{document}
-\title{\Large{Machine learning project 2\\
-Using neural networks for road segmentation of satellite images}}
+\title{\Large{\\
+\textbf{Evaluating the Performance of the U-Net CNN for Road Segmentation in Satellite Images}}}
 
-\author{Luca Delabarre, Thibaud Banderet, Mateo Echeverry Hoyos}
+
+\author{Luca Delabarre, Thibaud Banderet, Mateo Echeverry Hoyos\\
+\textit{Machine Learning, EPFL Lausanne, Switzerland}}
+
 
 \maketitle
 
@@ -128,6 +131,14 @@ The last graph of results we showcase is about variations of the data augmentati
     \caption{AICrowd and training accuracies of Short U-Net with different types of data augmentation : classic has 6 rotations, horizontal and vertical flips, gaussian noise with variances 50 and 200 and salt and pepper noise with rate 0.01875. Rotations removes the gaussian noise with variance 50 to replace it with another random rotation. Corruption lowers the corruptions rates to variances 10 and 50 and rate 0.01.}
 \end{figure}
 The best result turns out to be the first augmentation we tried. After looking at some predictions using this augmentation we noticed our model struggled with roads that were not vertical or horizontal, which brought the idea of adding more rotations. Another worry was about the corruption rates being too high which is why we tried lowering them too. Adding more rotations allowed the large unet to perform better. Changing the corruption rates did not change much to our results.
+
+In the following graph we can observe the improvement of the Fat Unet model over time.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.5]{report_images/fatunet_progression.png} %width=0.8\textwidth
+    \caption{AICrowd and training accuracies of Fat-Unet in different iterations}
+\end{figure}
+The x-axis represents the number of the iteration. At iteration 1, the model was trained using only the 100 images from the training patches of size 96x96 without applying any data augmentation. At iteration 2, we attempted to add images from a new dataset but this worsened the model's performance. At iteration 3, we applied data augmentation techniques to the dataset. At iteration 4, we changed the threshold from 0.1 to 0.2, further improving the model's performance. Finally, at iteration 5, we began monitoring the F1 score instead of the validation loss. These results show that the fat U-Net model's performance improved as the team applied various techniques
 \section{Discussion}
 We now discuss the results we achieved and the choices we made during this project. To begin with the models. 
 \subsection{Models}
