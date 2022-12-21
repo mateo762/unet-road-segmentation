@@ -60,5 +60,9 @@ to load and use the model with MODEL.predict().
 Please make sure that you have imported helper.py (where get_f1 is defined) and that you have all the necessary libraries enumerated above installed and imported.
 We recommend the following:  
  - Download and place the pre trained model into the models folder.
- - Open the Unet.ipynb file and run the following cells
- - 
+ - Open the Unet.ipynb file and run the following sections
+ - Run the "Imports" section
+ - Run the "Constants" section (make sur to uncomment the last cell where the model is loaded)
+ - In the "Load data" section, run the "Test cell"
+ - You can check the predictions by running the cells in the section "Check test images" and modifying the variable "image_you_want_to_see" on the first line
+ - Optionally, you can run the "Submission" section to generate the .csv
