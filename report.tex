@@ -159,19 +159,19 @@ The last main hyperparameter we will discuss is patch size. We started with the 
 \newline
 Sanity checks were made to approve our method, which showed that patches of 16x16 either end with too much data to train the model within a reasonable time or much lower accuracy. Testing with full images as patches also drastically lowered the accuracy of the model. We did not have the time to grid search the optimal patch size around 96x96 however, so some further improvements might be possible in this area.
 \subsection{Strengths and weaknesses of our model}
-After training our best model and adjusting the augmented data to work on its weaknesses as much as possible, we notice that it is able to precisely detect roads that are at an angle. This is best shown by the following image :
+After training our best model and adjusting the augmented data to help its weaknesses, we notice that it is able to precisely detect roads that are at an angle. This is best shown by the following image :
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.3]{report_images/diagonal.jpg} %width=0.8\textwidth
-    \caption{Here even the road in the middle in diagonal is very well recognized by our model, proving that it is now much better at detecting these, thanks to added random rotations of each image.}
+    \caption{The road in the middle is diagonal and very well recognized by our model, proving that it is now much better at detecting these. Adding more random rotations of each image allowed the model to handle them better.}
 \end{figure}
-However a weakness of our model that we did not get to handle is parking lots. In fact it does seem understandable that they could be taken as roads since they are extremely similar to them, another factor is that some images from the train set identify roads in parkings whereas some others do not, which obviously confuse our model. This confusion can be seen in the following prediction : 
+A weakness of our model that we did not manage to fix is parking lots and some railroad tracks. In fact, it seems understandable that they can be classified as roads since both are very similar. Another factor that did not help is that some images from the train set identify roads inside parking lots whereas some others do not, which in a sense confuses our model. This confusion leads to very uncertain predictions around parking lots : 
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.3]{report_images/parking.jpg} %width=0.8\textwidth
-    \caption{The parking on the left of the image is badly delimited and contains weird looking road predictions, which shows the confusion of the model when it comes to parking lots.}
+    \caption{The parking on the left of the image is badly delimited and contains weird looking road predictions.}
 \end{figure}
-A way this could have been improved would be by either removing all roads from parkings in the training set or adding them on every parking such that we have a consistent set. The issue with this is that we do not know which would be the correct change (we do not know whether parkings should be identified as roads or not). This is why we ended up leaving them as is and hoping our model would not suffer too much from them.
+This could have been improved by either removing all roads from parkings in the training set or adding them on every parking such that we have a consistent set. The issue with this is that we do not know if parkings should be identified as roads or not. Also, this requires manually modifying groudtruth images from the training set, which would have been tedious but possible in this case. This approach is not scalable to larger datasets. This is why we left the images as they are. We suspect that parking lots are the reason why our model has poor recall on our AIcrowd submission. In fact, we got an accuracy of 93,3\% but f1 score of 87,5\%
 \subsection{Limitations and potential areas for improvement}
 Despite the promising results obtained with the U-Net model, there are several limitations that should be considered. One potential limitation is the size of the training dataset, which was augmented but still relatively small compared to datasets used in other image segmentation tasks. This may have limited the model's ability to generalize to new, unseen data and could be a potential area for improvement.
 \newline
