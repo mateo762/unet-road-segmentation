@@ -385,7 +385,7 @@ Other hyperparameters were found mostly using gried search. Dropout rates were t
 We now present different results of different variations of our model along with the best score we achieved. The main ranking statistic we use is the F1 score, which is a measure of a model's performance that takes into account both precision and recall. A high F1 score indicates that the model is able to accurately classify a large number of positive examples (i.e. roads) while also minimizing the number of false positives (i.e. non-road pixels that are classified as roads). Coincidentally the F1 score ranking gives the same ordering as ordering by accuracy on the test set (the one on AICrowd).
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.4]{models_graph.png} %width=0.8\textwidth
+    \includegraphics[scale = 0.4]{report_images/models_graph.png} %width=0.8\textwidth
     \caption{Accuracies of our various models, all using the same hyperparameters : training set augmented to 1200 images, patches of 96x96, submission threshold of 0.2, batch size of 16 and ADAM optimizer}
 \end{figure}
 When comparing the models we described in \ref{models}, our highest scoring model turns out to be the large U-Net, with an F1 score of 0.874 and an accuracy of 0.933, which is the highest score we have gotten overall. The other models still have high scores but tend to cap at around 0.84 F1 score. They also do not manage well a higher amount of data augmentation as they overfit rather rapidly. This result was obtained with the 2000 augmented images, a dropout rate of 0.5 and ReLU activation function.
@@ -395,7 +395,7 @@ All of those models used the binary cross entropy loss function, since it had be
 Another interesting parameter we tweaked was the submission threshold. This graph shows how much influence it has over a certain trained model.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.4]{thresholds_graph.png} %width=0.8\textwidth
+    \includegraphics[scale = 0.4]{report_images/thresholds_graph.png} %width=0.8\textwidth
     \caption{Accuracy and F1 score of Short U-Net with added dropout depending on the submission threshold. The hyperparameters are : training set augmented to 1200 images, patches of 96x96, batch size of 16 and ADAM optimizer}
 \end{figure}
 As the graph shows, picking the right submission threshold yields drastic improvements in both F1 score and accuracy on the test set, namely a 0.2 increase from the worst to the best in the graph. This threshold was maximized on every model using a manual grid search on our test set.
@@ -404,7 +404,7 @@ As the graph shows, picking the right submission threshold yields drastic improv
 The last graph of results we showcase is about variations of the data augmentation for the model. There is a lot of potential variations to try here but due to the amount of submissions possible we limit ourselves to a few that we intuitively think can improve the score.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.4]{data_graph.png} %width=0.8\textwidth
+    \includegraphics[scale = 0.4]{report_images/data_graph.png} %width=0.8\textwidth
     \caption{AICrowd and training accuracies of Short U-Net with different types of data augmentation : classic has 6 rotations, horizontal and vertical flips, gaussian noise with variances 50 and 200 and salt and pepper noise with rate 0.01875. Rotations removes the gaussian noise with variance 50 to replace it with another random rotation. Corruption lowers the corruptions rates to variances 10 and 50 and rate 0.01.}
 \end{figure}
 The best result turns out to be the first augmentation we tried. After looking at some predictions using this augmentation we noticed our model struggled with roads that were not vertical or horizontal, which brought the idea of adding more rotations. Another worry was about the corruption rates being too high which is why we tried lowering them too. Adding more rotations allowed the large unet to perform better. Changing the corruption rates did not change much to our results.
@@ -438,6 +438,20 @@ We then tried randomizing the rotations further by randomizing the center of rot
 The last main hyperparameter we will discuss is patch size. We started with the following decision : the submission requires patches of 16x16 but they seem too small to be able to differentiate roads from other things. On the other hand using the full image as one data sample does not seem necessary and would result in very little training data. Therefore we lower the patch size so that roads are still easily recognizable as to maximize training data with no drawback.
 \newline
 Sanity checks were made to approve our method, which showed that patches of 16x16 either end with too much data to train the model within a reasonable time or much lower accuracy. Testing with full images as patches also drastically lowered the accuracy of the model. We did not have the time to grid search the optimal patch size around 96x96 however, so some further improvements might be possible in this area.
+\subsection{Strengths and weaknesses of our model}
+After training our best model and adjusting the augmented data to work on its weaknesses as much as possible, we notice that it is able to precisely detect roads that are at an angle. This is best shown by the following image :
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.3]{report_images/diagonal.jpg} %width=0.8\textwidth
+    \caption{Here even the road in the middle in diagonal is very well recognized by our model, proving that it is now much better at detecting these, thanks to added random rotations of each image.}
+\end{figure}
+However a weakness of our model that we did not get to handle is parking lots. In fact it does seem understandable that they could be taken as roads since they are extremely similar to them, another factor is that some images from the train set identify roads in parkings whereas some others do not, which obviously confuse our model. This confusion can be seen in the following prediction : 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.3]{report_images/parking.jpg} %width=0.8\textwidth
+    \caption{The parking on the left of the image is badly delimited and contains weird looking road predictions, which shows the confusion of the model when it comes to parking lots.}
+\end{figure}
+A way this could have been improved would be by either removing all roads from parkings in the training set or adding them on every parking such that we have a consistent set. The issue with this is that we do not know which would be the correct change (we do not know whether parkings should be identified as roads or not). This is why we ended up leaving them as is and hoping our model would not suffer too much from them.
 \subsection{Limitations and potential areas for improvement}
 Despite the promising results obtained with the U-Net model, there are several limitations that should be considered. One potential limitation is the size of the training dataset, which was augmented but still relatively small compared to datasets used in other image segmentation tasks. This may have limited the model's ability to generalize to new, unseen data and could be a potential area for improvement.
 \newline
