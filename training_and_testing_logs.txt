@@ -70,3 +70,6 @@ SHORT_UNET, 96, F1 0.847 ACC 0.913, loss: 0.0820 - accuracy: 0.8408 - val_loss: 
 SHORT_UNET, 96, F1 0.818 ACC 0.903 | loss: 0.1631 - accuracy: 0.8374 - val_loss: 0.2098 - val_accuracy: 0.8351, 0.2, 16, ADAM, SOFT_DICE_LOSS
 SHORT_UNET, 128, F1 0.808 ACC 0.881 | loss: 0.1529 - accuracy: 0.8587 - val_loss: 0.2221 - val_accuracy: 0.8348, 0.2, 16, ADAM, SOFT_DICE_LOSS
 
+FAT UNET, 100 PATCHES 96, 0, rotate 10*random + 90 180 270 / flip x y / gaussian noise var 50 100 / s&p rate 0.01 and 0.02, F1 0.875 ACC 0.937, loss: 0.0550 - f1: 0.9421 - val_loss: 0.0666 - val_f1: 0.9244, 0.2, 64, ADAM
+Training fat unet more lead to f1 of 94.5 % on validation set
+
