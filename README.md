@@ -56,7 +56,10 @@ To use it, download it from the link above and place it in the models folder. Yo
 ```python
 MODEL = tf.keras.models.load_model("./models/fat_unet.h5", custom_objects={'get_f1': get_f1})
 ```
-to load and use the model with MODEL.predict().
+to load and use the model with
+```python
+MODEL.predict()
+```
 Please make sure that you have imported helper.py (where get_f1 is defined) and that you have all the necessary libraries enumerated above installed and imported.
 We recommend the following:  
  - Download and place the pre trained model into the models folder.
