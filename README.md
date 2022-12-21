@@ -50,3 +50,10 @@ Once this is done the following workflow can be used :
 2) Tweak the constants at the start of Unet.ipynb  
 3) Run the rest of Unet.ipynb in order to get a model, its predictions and a csv file  
 If you simply want to run our best model with our best parameters, just run the run.py file with empty training folders. It will reproduce the workflow from above with set parameters.  
+## Running the model the easier way
+We also provide our best model [here](https://drive.google.com/file/d/1CEepjjulEFHvq4mVvU2LurGH4eFcsLn8/view?usp=sharing). The model chosen is the large unet, that was trained 300 epochs with a bacth size of 64 on an NVIDIA GeForce GTX 3070 which took about 4 hours.  
+To use it, download it from the link above and place it in the models folder. You can then use the line  
+```python
+MODEL = tf.keras.models.load_model("./models/fat_unet.h5", custom_objects={'get_f1': get_f1})
+```
+Please make sure that you have imported helper.py (where get_f1 is defined) and that you have all the necessary libraries enumerated above installed and imported.
