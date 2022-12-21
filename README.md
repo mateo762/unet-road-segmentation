@@ -58,7 +58,7 @@ MODEL = tf.keras.models.load_model("./models/fat_unet.h5", custom_objects={'get_
 ```
 to load and use the model with
 ```python
-MODEL.predict()
+MODEL.predict(<collection of patches of images to classify>)
 ```
 Please make sure that you have imported helper.py (where get_f1 is defined) and that you have all the necessary libraries enumerated above installed and imported.
 We recommend the following:  
