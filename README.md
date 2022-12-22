@@ -66,6 +66,6 @@ We recommend the following:
  - Open the Unet.ipynb file and run the following sections
  - Run the "Imports" section
  - Run the "Constants" section (make sur to uncomment the last cell where the model is loaded)
- - In the "Load data" section, run the "Test cell"
+ - In the "Load data" section, run the "Test" cell
  - You can check the predictions by running the cells in the section "Check test images" and modifying the variable "image_you_want_to_see" on the first line
  - Optionally, you can run the "Submission" section to generate the exact same .csv prediction as our best submission on AICrowd, which you can download [here](https://drive.google.com/file/d/1dxWG6nw_EseVGqy_bfUd46Z6YK9RTe9d/view?usp=sharing)

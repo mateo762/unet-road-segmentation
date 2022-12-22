@@ -77,7 +77,7 @@ degrees = []
 centers = []
 for i in range(ROTATIONS_PER_IMAGE*len(os.listdir(BASE_TRAIN_IMAGES))):
     degrees.append(random.randint(0, 90)) # random rotation of degree between 0 and 90
-    centers.append((random.randint(40, 60), random.randint(40, 60))) # random center between 40% and 60% of image width & length
+    centers.append((random.randint(45, 55), random.randint(45, 55))) # random center between 45% and 55% of image width & length
     
 # Generate the rotated images
 index = 0
