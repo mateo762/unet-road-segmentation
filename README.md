@@ -1,5 +1,5 @@
 # CS-433 Machine Learning - Project 2
-You can read the report [here](https://mateo762.github.io/reports/ReportRoads.pdf)
+You can read the report [here](https://mateo762.github.io/reports/ReportRoads.pdf).
 
 
 The goal of this project is to train a convolutional neural network to segment roads in satellite images. This repository contains all of our work, including different trainable models, data augmentation techniques, a report and an explanation on how to run the code and experiment with it.  
