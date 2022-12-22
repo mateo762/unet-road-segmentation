@@ -40,7 +40,7 @@ In this lab report, we investigate the use of a convolutional neural network (CN
 After training and evaluating the models on the test set, we find that our modified U-Net model achieves an F1 score of 94.5\%. We also perform a detailed error analysis to understand where the model is making mistakes and identify potential areas for improvement. Overall, our results suggest that the U-Net architecture is a promising approach for road segmentation in satellite images, which has the potential to significantly improve the accuracy of autonomous vehicles and mapping services.
 
 \section{Methods}
-We use a convolutional network in order to work on this problem since our inputs and outputs are images. We use the U-Net as a general architecture as it is designed for image segmentation \cite{wiki:u-net}. We tried various variations of the original U-Net architecture by altering the number of filters on the layers, changing activation functions, dropout rates and adding batch normalization.
+We use a convolutional network in order to work on this problem since our inputs and outputs are images. We use the U-Net as a general architecture as it is designed for image segmentation \cite{wiki:U-Net}. We tried various variations of the original U-Net architecture by altering the number of filters on the layers, changing activation functions, dropout rates and adding batch normalization.
 \subsection{Preprocessing}
 \label{preprocess}
 Before training our model, we preprocess our data in the following way.
@@ -60,7 +60,7 @@ Another way to grow our training set is by adding images from other training set
 Every image we have is 400x400 pixels. We cut it into smaller patches with padding if necessary. This gives us more training data without trading anything in return as long as the patches are large enough for the model to find roads easily.
 \subsection{Models}
 \label{models}
-We tried some variations on the U-net architecture:
+We tried some variations on the U-Net architecture:
 \begin{itemize}
 \item "Short U-Net" taken from \cite{short-unet}
 \item "Multi U-Net" taken from \cite{multi-unet}
@@ -118,7 +118,7 @@ We now present different results of different variations of our model along with
 \vspace{-0.1in}
 When comparing the models we described in \ref{models}, our highest scoring model turns out to be the large U-Net, with an F1 score of 0.874 and an accuracy of 0.933, which is the highest score we have gotten overall. The other models still have high scores but tend to cap at around 0.84 F1 score. They also do not manage well a higher amount of data augmentation as they overfit rather rapidly. This result was obtained with the 2000 augmented images, a dropout rate of 0.5 and ReLU activation function.
 \newline
-All of those models used the binary cross entropy loss function, since it had better results than the soft dice loss function. In the Short Unet, when training the model with the soft dice loss function the model had an F1 score of 0.818, giving worse results than with the binary cross entropy loss.
+All of those models used the binary cross entropy loss function, since it had better results than the soft dice loss function. In the Short U-Net, when training the model with the soft dice loss function the model had an F1 score of 0.818, giving worse results than with the binary cross entropy loss.
 \newline
 Another interesting parameter we tweaked was the submission threshold. This graph shows how much influence it has over a certain trained model.
 \vspace{-0.2in}
@@ -141,15 +141,15 @@ The last graph of results we showcase is about variations of the data augmentati
     \caption{AICrowd and training accuracies of Short U-Net with different types of data augmentation : classic has 6 rotations, horizontal and vertical flips, gaussian noise with variances 50 and 200 and salt and pepper noise with rate 0.01875. Rotations removes the gaussian noise with variance 50 to replace it with another random rotation. Corruption lowers the corruptions rates to variances 10 and 50 and rate 0.01.}
 \end{figure}
 \vspace{-0.1in}
-The best result turns out to be the first augmentation we tried. After looking at some predictions using this augmentation we noticed our model struggled with roads that were not vertical or horizontal, which brought the idea of adding more rotations. Another worry was about the corruption rates being too high which is why we tried lowering them too. Adding more rotations allowed the large unet to perform better. Changing the corruption rates did not change much to our results.
+The best result turns out to be the first augmentation we tried. After looking at some predictions using this augmentation we noticed our model struggled with roads that were not vertical or horizontal, which brought the idea of adding more rotations. Another worry was about the corruption rates being too high which is why we tried lowering them too. Adding more rotations allowed the large U-Net to perform better. Changing the corruption rates did not change much to our results.
 
-In the following graph we can observe the improvement of the large U-net model over time.
+In the following graph we can observe the improvement of the large U-Net model over time.
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.4]{report_images/fatunet_progression.png} %width=0.8\textwidth
-    \caption{AICrowd and training accuracies of large U-net in different iterations}
+    \caption{AICrowd and training accuracies of large U-Net in different iterations}
 \end{figure}
-The x-axis represents the number of the iteration. At iteration 1, the model was trained using only the 100 images from the training patches of size 96x96 without applying any data augmentation. At iteration 2, we attempted to add images from a new dataset but this worsened the model's performance. At iteration 3, we applied data augmentation techniques to the dataset. At iteration 4, we changed the threshold from 0.1 to 0.2, further improving the model's performance. Finally, at iteration 5, we began monitoring the F1 score instead of the validation loss. These results show that the fat U-Net model's performance improved as the team applied various techniques
+The x-axis represents the number of the iteration. At iteration 1, the model was trained using only the 100 images from the training patches of size 96x96 without applying any data augmentation. At iteration 2, we attempted to add images from a new dataset but this worsened the model's performance. At iteration 3, we applied data augmentation techniques to the dataset. At iteration 4, we changed the threshold from 0.1 to 0.2, further improving the model's performance. Finally, at iteration 5, we began monitoring the F1 score instead of the validation loss. These results show that the large U-Net model's performance improved as the team applied various techniques
 \section{Discussion}
 We now discuss the results we achieved and the choices we made during this project. To begin with the models. 
 \subsection{Models}
