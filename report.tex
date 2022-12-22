@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@mateo762 
+CS-433
+/
+ml-project-2-mlmylove
+Private
+Code
+Issues
+Pull requests
+Actions
+Projects
+Security
+Insights
+Settings
+ml-project-2-mlmylove/report.tex
+@Arkadyus
+Arkadyus Paid a premium weightwatchers plan to the report. Now fits in 4 pages
+Latest commit 79d96c3 13 hours ago
+ History
+ 2 contributors
+@Arkadyus@mateo762
+208 lines (191 sloc)  25.1 KB
+
 \documentclass[10pt,conference,compsocconf]{IEEEtran}
 
 \usepackage{graphicx}	% For figure environment
@@ -25,19 +55,17 @@
 \author{Luca Delabarre, Thibaud Banderet, Mateo Echeverry Hoyos\\
 \textit{Machine Learning, EPFL Lausanne, Switzerland}}
 
-
 \maketitle
-
 \begin{abstract}
-In this lab report, we explore the use of a U-Net model to segment roads in satellite images. The U-Net model is a convolutional neural network (CNN) that has been shown to be effective for image segmentation tasks. Due to the reduced dataset, we use various data augmentation techniques, which help to improve the performance of the model. The augmented dataset is then used to train the U-Net model. We evaluate the performance of the model using several metrics, including accuracy and F1 score. The results show that the final U-Net model used achieves an F1 score of 94.5\% on the test set, demonstrating its effectiveness at segmenting roads in satellite images. In addition, we also perform a detailed error analysis to understand where the model is making mistakes and identify potential areas for improvement. Our results confirm that the U-Net model is a promising approach for solving this challenge.
+In this lab report, we explore the use of a U-Net model to segment roads in satellite images. The U-Net model is a convolutional neural network (CNN) that has been shown to be effective for image segmentation tasks. Due to the reduced dataset, we use various data augmentation techniques, which help to improve the performance of the model. The augmented dataset is then used to train the U-Net model. We evaluate the performance of the model using several metrics, including accuracy and F1 score. The results show that the final U-Net model used achieves an F1 score of 94.5\% on the test set, demonstrating its effectiveness at segmenting roads in satellite images. Our results confirm that the U-Net model is a promising approach for solving this challenge.
 \end{abstract}
-
+\vspace{-0.1in}
 \section{Introduction}
 Road segmentation is an essential task in the field of computer vision, with numerous practical applications in areas such as autonomous vehicle navigation and mapping services. Autonomous vehicles, also known as self-driving cars, have the potential to revolutionize the way we travel and significantly improve transportation efficiency. Accurate road segmentation is a critical component of autonomous vehicle navigation, as it allows the vehicle to correctly identify and follow roads in real-time. Inaccurate road segmentation can lead to costly accidents and undermine the safety and reliability of autonomous vehicles.
 
 In addition to autonomous vehicles, accurate road segmentation can also improve the accuracy of mapping services, such as Google Maps. By correctly identifying roads in satellite images, these services can more accurately display road networks and provide more accurate directions to users. This can be especially important in areas where the road network is constantly changing, such as in developing countries.
 
-In this lab report, we investigate the use of a convolutional neural network (CNN) called the U-Net for the task of road segmentation in satellite images. The U-Net model is a well-established approach for image segmentation tasks and has previously been shown to be effective in a variety of contexts. To improve the performance of the U-Net model on our sparse dataset consisting of 100 hundred images of size 400x400, we apply data augmentation techniques to the dataset before training the model on it. Data augmentation involves applying various transformations to the training data to artificially increase the size of the dataset and improve the generalizability of the model.
+In this lab report, we investigate the use of a convolutional neural network (CNN) called the U-Net for the task of road segmentation in satellite images. The U-Net model is a well-established approach for image segmentation tasks and has previously been shown to be effective in a variety of contexts. To improve the performance of the U-Net model on our sparse dataset consisting of 100 hundred images of size 400x400, we apply data augmentation techniques to the dataset. These techniques involve applying various transformations to the training data to artificially increase the size of the dataset and improve the generalizability of the model.
 
 After training and evaluating the models on the test set, we find that our modified U-Net model achieves an F1 score of 94.5\%. We also perform a detailed error analysis to understand where the model is making mistakes and identify potential areas for improvement. Overall, our results suggest that the U-Net architecture is a promising approach for road segmentation in satellite images, which has the potential to significantly improve the accuracy of autonomous vehicles and mapping services.
 
@@ -57,12 +85,12 @@ We use the following transformations : rotations of multiples of 90 degrees, ran
 \end{itemize}
 \subsubsection{Other training set}
 \label{otherset}
-Another way to grow our training set is by adding images from other training sets found online, namely from \cite{newtraining}. This set is far from clean (has a lot of images with white parts) and does not have quite the same distribution as the base training set we are given. We make it more usable by removing all images with white parts, but end up not using it as it is too different from our images to make our model more accurate.
+Another way to grow our training set is by adding images from other training sets found online, namely from \cite{newtraining}. This set is far from clean (has a lot of images with white parts) and does not have quite the same distribution as the base training set we are given. We hand-picked the best images, but ended up not using them as their distribution was too different from our set.
 \subsubsection{From images to patches}
-Every image we have is 400x400 pixels. In order to augment our data even more, we cut it into smaller patches with padding if necessary. This gives us more training data without trading anything in return as long as the patches are large enough for the model to find roads easily.
+Every image we have is 400x400 pixels. We cut it into smaller patches with padding if necessary. This gives us more training data without trading anything in return as long as the patches are large enough for the model to find roads easily.
 \subsection{Models}
 \label{models}
-As explained before the U-Net is our general model but we try to train different variations of it we give each of them a name to talk about them easier later on :
+We tried some variations on the U-net architecture:
 \begin{itemize}
 \item "Short U-Net" taken from \cite{short-unet}
 \item "Multi U-Net" taken from \cite{multi-unet}
@@ -72,15 +100,16 @@ The Multi U-Net model uses multiple U-Net modules to improve the performance of 
 
 The Short U-Net uses fewer layers and filters in the contracting and expansive paths. This makes the model faster to train and less prone to overfitting, at the expense of some loss of performance.
 
-The Large U-Net model uses more layers and filters in the contracting and expansive paths. This makes the model more powerful and capable of achieving higher performance, but also makes it slower to train and more prone to overfitting.
+The Large U-Net model uses more layers and filters in the contracting and expansive paths. This makes the model more powerful and capable of achieving higher performance, but also makes it slower to train.
 
 On top of using these models as basis we also attempt to tweak them in multiple ways, for example by adding dropout layers or changing their rate, adding or removing layers or changing activation functions.
-Note that we always give the preprocessed images with their values divided by 255 (since RGB values go to 255) to the model as a way of standardizing our input. One could argue that standardizing the usual way is better, our reasoning is that the first layers of the neural network work as input transformation layers so it is not needed (we only divide by 255 in order to keep weights low and use less space). Each model is trained with the same exact input shape and type for comparing reasons.
+The inputs of the model are preprocessed images with their values divided by 255. (since RGB values go to 255) This is a way of standardizing our input. One could argue that standardizing the usual way is better, our reasoning is that the first layers of the neural network work as input transformation layers so it is not needed. Each model is trained with the same exact input shape and type for comparing reasons.
 
 \subsection{Loss functions}
 Loss functions are an important part of machine learning models and are used to measure how well a model is performing. In the context of image segmentation, the two commonly used loss functions are the binary cross entropy loss and the soft dice loss, which are the ones we experimented with.
 \subsubsection{Binary cross entropy}
 The binary cross entropy loss is a measure of the difference between the predicted output and the true output for binary classification tasks. It is defined as:
+\vspace{-0.075in}
 \begin{center}
 $Loss = -{(y\log(p) + (1 - y)\log(1 - p))}$
 \end{center}
@@ -88,6 +117,7 @@ $Loss = -{(y\log(p) + (1 - y)\log(1 - p))}$
 Where y is the true output and p is the predicted output. The binary cross entropy loss is easy to calculate and is commonly used for image segmentation tasks. However, it can be sensitive to imbalanced datasets and may not be the best choice when the class distribution is uneven.
 \subsubsection{Soft dice loss}
 The soft dice loss is another commonly used loss function for image segmentation tasks. It is defined as:
+\vspace{-0.1in}
 \begin{center}
 $Loss = \frac{2*|U \cap V|}{|U| + |V|}$
 \end{center}
@@ -103,34 +133,53 @@ Patch size is an interesting hyperparameter, intuitively the best patch size wou
 After training the model, we still need to go from our patch size to the required one (16x16) and give a single value for each of these patches, which we do by averaging the patch image and thresholding that average to either output 0 or 1. Intuitively a threshold of 0.5 sounds like the best option but because of our lack in training data, a lower threshold such as 0.2 tends to yield better results as our model does not seem so confident in his predictions (road pixels do not have values much higher than non road ones). This hyperparameter is important to maximize as it is crucial in getting a higher F1 score, the right ratio of false positive and false negative needs to be met.
 \subsubsection{Others}
 Other hyperparameters were found mostly using gried search. Dropout rates were tested between 0.5 and 0.8. Leaky-ReLu parameter was tested between 0.1 and 0.3. We tried two optimizers, namely SGD and ADAM. ADAM with a learning rate of $10^{-4}$ performed better than SGD despite being a bit slower on our machines. Batch size was chosen as 16 or 64 depending on the amount of available memory on our GPU at the moment of training.
+\vspace{-0.1in}
 \section{Results}
+\vspace{-0.1in}
 \subsection{Performance}
 We now present different results of different variations of our model along with the best score we achieved. The main ranking statistic we use is the F1 score, which is a measure of a model's performance that takes into account both precision and recall. A high F1 score indicates that the model is able to accurately classify a large number of positive examples (i.e. roads) while also minimizing the number of false positives (i.e. non-road pixels that are classified as roads). Coincidentally the F1 score ranking gives the same ordering as ordering by accuracy on the test set (the one on AICrowd).
+\vspace{-0.2in}
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.4]{report_images/models_graph.png} %width=0.8\textwidth
+    \vspace{-0.1in}
     \caption{Accuracies of our various models, all using the same hyperparameters : training set augmented to 1200 images, patches of 96x96, submission threshold of 0.2, batch size of 16 and ADAM optimizer}
 \end{figure}
+\vspace{-0.1in}
 When comparing the models we described in \ref{models}, our highest scoring model turns out to be the large U-Net, with an F1 score of 0.874 and an accuracy of 0.933, which is the highest score we have gotten overall. The other models still have high scores but tend to cap at around 0.84 F1 score. They also do not manage well a higher amount of data augmentation as they overfit rather rapidly. This result was obtained with the 2000 augmented images, a dropout rate of 0.5 and ReLU activation function.
 \newline
 All of those models used the binary cross entropy loss function, since it had better results than the soft dice loss function. In the Short Unet, when training the model with the soft dice loss function the model had an F1 score of 0.818, giving worse results than with the binary cross entropy loss.
 \newline
 Another interesting parameter we tweaked was the submission threshold. This graph shows how much influence it has over a certain trained model.
+\vspace{-0.2in}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.4]{report_images/thresholds_graph.png} %width=0.8\textwidth
+    \includegraphics[scale = 0.3]{report_images/thresholds_graph.png} %width=0.8\textwidth
+    \vspace{-0.1in}
     \caption{Accuracy and F1 score of Short U-Net with added dropout depending on the submission threshold. The hyperparameters are : training set augmented to 1200 images, patches of 96x96, batch size of 16 and ADAM optimizer}
 \end{figure}
+\vspace{-0.1in}
 As the graph shows, picking the right submission threshold yields drastic improvements in both F1 score and accuracy on the test set, namely a 0.2 increase from the worst to the best in the graph. This threshold was maximized on every model using a manual grid search on our test set.
 \newline
 \label{results_data}
 The last graph of results we showcase is about variations of the data augmentation for the model. There is a lot of potential variations to try here but due to the amount of submissions possible we limit ourselves to a few that we intuitively think can improve the score.
+\vspace{-0.2in}
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.4]{report_images/data_graph.png} %width=0.8\textwidth
+    \vspace{-0.15in}
     \caption{AICrowd and training accuracies of Short U-Net with different types of data augmentation : classic has 6 rotations, horizontal and vertical flips, gaussian noise with variances 50 and 200 and salt and pepper noise with rate 0.01875. Rotations removes the gaussian noise with variance 50 to replace it with another random rotation. Corruption lowers the corruptions rates to variances 10 and 50 and rate 0.01.}
 \end{figure}
+\vspace{-0.1in}
 The best result turns out to be the first augmentation we tried. After looking at some predictions using this augmentation we noticed our model struggled with roads that were not vertical or horizontal, which brought the idea of adding more rotations. Another worry was about the corruption rates being too high which is why we tried lowering them too. Adding more rotations allowed the large unet to perform better. Changing the corruption rates did not change much to our results.
+
+In the following graph we can observe the improvement of the large U-net model over time.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.4]{report_images/fatunet_progression.png} %width=0.8\textwidth
+    \caption{AICrowd and training accuracies of large U-net in different iterations}
+\end{figure}
+The x-axis represents the number of the iteration. At iteration 1, the model was trained using only the 100 images from the training patches of size 96x96 without applying any data augmentation. At iteration 2, we attempted to add images from a new dataset but this worsened the model's performance. At iteration 3, we applied data augmentation techniques to the dataset. At iteration 4, we changed the threshold from 0.1 to 0.2, further improving the model's performance. Finally, at iteration 5, we began monitoring the F1 score instead of the validation loss. These results show that the fat U-Net model's performance improved as the team applied various techniques
 \section{Discussion}
 We now discuss the results we achieved and the choices we made during this project. To begin with the models. 
 \subsection{Models}
@@ -165,13 +214,13 @@ Sanity checks were made to approve our method, which showed that patches of 16x1
 After training our best model and adjusting the augmented data to help its weaknesses, we notice that it is able to precisely detect roads that are at an angle. This is best shown by the following image :
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.3]{report_images/diagonal.jpg} %width=0.8\textwidth
+    \includegraphics[scale = 0.25]{report_images/diagonal.jpg} %width=0.8\textwidth
     \caption{The road in the middle is diagonal and very well recognized by our model, proving that it is now much better at detecting these. Adding more random rotations of each image allowed the model to handle them better.}
 \end{figure}
 A weakness of our model that we did not manage to fix is parking lots and some railroad tracks. In fact, it seems understandable that they can be classified as roads since both are very similar. Another factor that did not help is that some images from the train set identify roads inside parking lots whereas some others do not, which in a sense confuses our model. This confusion leads to very uncertain predictions around parking lots : 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.3]{report_images/parking.jpg} %width=0.8\textwidth
+    \includegraphics[scale = 0.25]{report_images/parking.jpg} %width=0.8\textwidth
     \caption{The parking on the left of the image is badly delimited and contains weird looking road predictions.}
 \end{figure}
 This could have been improved by either removing all roads from parkings in the training set or adding them on every parking such that we have a consistent set. The issue with this is that we do not know if parkings should be identified as roads or not. Also, this requires manually modifying groudtruth images from the training set, which would have been tedious but possible in this case. This approach is not scalable to larger datasets. This is why we left the images as they are. We suspect that parking lots are the reason why our model has poor recall on our AIcrowd submission. In fact, we got an accuracy of 93,3\% but f1 score of 87,5\%
@@ -187,3 +236,18 @@ In this lab report, we worked on the task of road segmentation in satellite imag
 \bibliographystyle{IEEEtran}
 \bibliography{bib}
 \end{document}
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+ml-project-2-mlmylove/report.tex at main · CS-433/ml-project-2-mlmylove
